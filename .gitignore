@@ -1,0 +1,52 @@
+#########
+# Ansible
+#########
+
+# Rendered inventories
+ansible/inventories/uncloud*
+
+#########
+# Mac OSX
+#########
+.DS_Store
+
+#########
+# Intelij
+#########
+.idea
+*.iws
+*.iml
+*.ipr
+
+
+#########
+# VS Code
+#########
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+# Local History for Visual Studio Code
+.history/
+
+# Built Visual Studio Code Extensions
+*.vsix
+
+#########
+# env files
+#########
+run_ansible.env
+
+
+#########
+# vault
+#########
+.vault_pass
+
+#########
+# vagrant
+#########
+.vagrant/
