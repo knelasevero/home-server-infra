@@ -3,7 +3,7 @@
 #########
 
 # Rendered inventories
-ansible/inventories/uncloud*
+ansible/inventories/homeinfra*
 
 #########
 # Mac OSX
