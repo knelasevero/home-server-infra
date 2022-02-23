@@ -1,11 +1,4 @@
 ---
-- name: Install Docker
-  become: yes
-  apt:
-    name: "docker.io"
-    state: present
-    update_cache: yes
-
 - name: Install Git
   become: yes
   apt:
@@ -13,33 +6,32 @@
     state: present
     update_cache: yes
 
-
-- name: Install Docker Compose
-  become: yes
-  get_url:
-    url: https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-linux-x86_64
-    checksum: sha256:f15a7cd54a85f760a8ece92da63fb85b93036c72ead8056391b8a3fe9dc73134
-    dest: /usr/local/bin/docker-compose
-    owner: homeinfra
-    group: homeinfra
-    mode: u+x,g+x
-
-- name: Install pip
+- name: Install Open ssh
   become: yes
   apt:
-    name: python3-pip
+    name: openssh-server
     state: present
     update_cache: yes
 
-- name: Install venv
+- name: Make sure a service unit is running
   become: yes
-  apt:
-    name: python3-venv
-    state: present
-    update_cache: yes
+  ansible.builtin.systemd:
+    state: started
+    name: sshd
+    enabled: yes
 
-- name: Install Python Docker dependencies
-  pip:
-    name:
-      - docker
-      - docker-compose
+- name: Run command disable GUI
+  ansible.builtin.command: systemctl set-default multi-user
+  become: yes
+
+- name: Remove telnet
+  apt:
+    pkg: telnet
+    state: absent
+  become: yes
+
+- name: Remove cups
+  apt:
+    pkg: cups
+    state: absent
+  become: yes
