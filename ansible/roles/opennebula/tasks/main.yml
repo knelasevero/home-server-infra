@@ -66,3 +66,18 @@
     path: /etc/one/oneflow-server.conf
     regexp: ':host: [^ ]*'
     line: ":host: {{ one_flow_host }}"
+  
+- name: Start Systemd services
+  systemd:
+    name: '{{ item }}.service'
+    state: started
+  with_items:
+    - opennebula
+    - opennebula-sunstone
+    - opennebula-gate
+    - opennebula-flow
+
+- name: Start Fireedge a bit before
+  systemd:
+    name: 'opennebula-fireedge.service'
+    state: started
