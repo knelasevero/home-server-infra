@@ -1,0 +1,21 @@
+services:
+  caddy:
+    image: lucaslorentz/caddy-docker-proxy:latest
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      - CADDY_INGRESS_NETWORKS=reverse-proxy
+    networks:
+      - reverse-proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - caddy_data:/data
+    restart: unless-stopped
+
+networks:
+  reverse-proxy:
+    external: true
+
+volumes:
+  caddy_data:
