@@ -6,20 +6,6 @@
     state: present
     update_cache: yes
 
-- name: Install Open ssh
-  become: yes
-  apt:
-    name: openssh-server
-    state: present
-    update_cache: yes
-
-- name: Make sure a service unit is running
-  become: yes
-  ansible.builtin.systemd:
-    state: started
-    name: sshd
-    enabled: yes
-
 - name: Run command disable GUI
   ansible.builtin.command: systemctl set-default multi-user
   become: yes
