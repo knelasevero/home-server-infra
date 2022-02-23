@@ -1,7 +1,8 @@
 ---
 - name: Run command to add opennebula pkg key
-  ansible.builtin.command: wget -q -O- https://downloads.opennebula.org/repo/repo.key | sudo apt-key add -
+  ansible.builtin.command: wget -q -O- https://downloads.opennebula.org/repo/repo.key | apt-key add -
   become: yes
+  ignore_errors: yes
 
 - name: Add opennebula repo to the system
   ansible.builtin.command: echo "deb https://downloads.opennebula.org/repo/6.2/Ubuntu/20.04 stable opennebula" | sudo tee /etc/apt/sources.list.d/opennebula.list
@@ -19,3 +20,49 @@
       - opennebula-provision
     state: latest
     update_cache: true
+
+- name: Set oneadmin initial temporary pass
+  become: yes
+  become_user: oneadmin
+  ansible.builtin.lineinfile:
+    path: /var/lib/one/.one/one_auth
+    regexp: '^oneadmin:'
+    line: oneadmin:{{ oneadmin_pass }}
+
+- name: Change private FireEdge endpoint
+  become: yes
+  ansible.builtin.lineinfile:
+    path: /etc/one/sunstone-server.conf
+    regexp: ':private_fireedge_endpoint: [^ ]*'
+    line: ":private_fireedge_endpoint: {{ private_fireedge_endpoint }}"
+
+- name: Change public FireEdge endpoint
+  become: yes
+  ansible.builtin.lineinfile:
+    path: /etc/one/sunstone-server.conf
+    regexp: ':public_fireedge_endpoint: [^ ]*'
+    line: ":public_fireedge_endpoint: {{ public_fireedge_endpoint }}"
+
+- name: Configure OneGate host
+  become: yes
+  ansible.builtin.lineinfile:
+    path: /etc/one/onegate-server.conf
+    regexp: ':host: [^ ]*'
+    line: ":host: {{ one_gate_host }}"
+  
+- name: Print private ip addr
+  debug: var=ansible_default_ipv4.address
+
+- name: Configure OneGate endpoint
+  become: yes
+  ansible.builtin.lineinfile:
+    path: /etc/one/oned.conf
+    regexp: 'ONEGATE_ENDPOINT = [^ ]*'
+    line: "ONEGATE_ENDPOINT = \"http://{{ ansible_default_ipv4.address }}:5030\""
+
+- name: Configure OneFlow
+  become: yes
+  ansible.builtin.lineinfile:
+    path: /etc/one/oneflow-server.conf
+    regexp: ':host: [^ ]*'
+    line: ":host: {{ one_flow_host }}"

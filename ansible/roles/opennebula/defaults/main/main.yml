@@ -1,1 +1,6 @@
 ---
+
+private_fireedge_endpoint: "http://localhost:2616"
+public_fireedge_endpoint: "http://localhost:2616"
+one_gate_host: "0.0.0.0"
+one_flow_host: "0.0.0.0"
