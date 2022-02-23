@@ -1,0 +1,21 @@
+---
+- name: Run command to add opennebula pkg key
+  ansible.builtin.command: wget -q -O- https://downloads.opennebula.org/repo/repo.key | sudo apt-key add -
+  become: yes
+
+- name: Add opennebula repo to the system
+  ansible.builtin.command: echo "deb https://downloads.opennebula.org/repo/6.2/Ubuntu/20.04 stable opennebula" | sudo tee /etc/apt/sources.list.d/opennebula.list
+  become: yes
+
+- name: Install opennebula
+  become: yes
+  apt:
+    pkg:
+      - opennebula
+      - opennebula-sunstone
+      - opennebula-fireedge
+      - opennebula-gate
+      - opennebula-flow
+      - opennebula-provision
+    state: latest
+    update_cache: true

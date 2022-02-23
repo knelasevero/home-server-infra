@@ -5,14 +5,8 @@ ansible_user=${ansible_user}
 [common]
 ${server_fqdn}
 
-[libretranslate]
-${server_fqdn}
-
-[nextcloud]
-${server_fqdn}
-
-[onetimesecret]
-${server_fqdn}
-
 [reverse-proxy]
+${server_fqdn}
+
+[opennebula]
 ${server_fqdn}

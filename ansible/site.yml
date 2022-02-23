@@ -14,9 +14,9 @@
 #     - reverse-proxy
 #   tags: reverse-proxy
 
-# - name: install and configure opennebula
-  # hosts: opennebula
-  # gather_facts: yes
-  # roles:
-    # - opennebula
-  # tags: opennebula
+- name: install and configure opennebula
+  hosts: opennebula
+  gather_facts: yes
+  roles:
+    - opennebula
+  tags: opennebula
