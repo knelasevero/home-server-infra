@@ -33,7 +33,7 @@ We will aim this guide at some specific devices and softwares, but you can adapt
 * Some familiarity with networking, and its components (You will learn a bunch here as well).
 * Some familiarity with Linux networking (You will learn a bunch here as well).
 * Your Personal Machine
-    * It can be a Windows or a Linux machine. Preferable if it is a Linux machine since during the course I will show inputs and outputs from a Linux machine. It does not matter the distribution.
+    * It can be a Windows or a Linux machine. Preferable if it is a Linux machine since during the course I will show inputs and outputs from a Linux machine. The distribution doesn't matter.
     * This machine needs to have a ethernet socket (CAT 6/CAT 4 - simple internet cable thingy). If your laptop does not have it, you can buy an ethernet to USB adapter.
 * A VLAN aware router/firewall. More specifically for our examples, a hardware appliance were we can install Pfsense.
 * A VLAN aware switch (smart switch).
@@ -63,7 +63,7 @@ Link: https://eu.protectli.com/products/
 
 ### Netgate
 
-The advantage of going with Netgate and using Pfsense, is the fact that they are the company helping maintain the community and enterprise edition of the software. They have really interesting options for appliances, some even allowing you to just put your fiber cable directly on the router and completely throw away your ISP's modem (Not all ISPs would be happy with that, by the way - in Brazil they even artificially jam your signal if you do that). The other advantage of going with Netgate is that they provide some very interesting cheap options, like the Netgate 1100, for $189. They even provide hardware that already comes with Pfsense installed, which would make you skip some steps in this course.
+The advantage of going with Netgate and using Pfsense is the fact that they are the company helping maintain the community and enterprise edition of the software. They have really interesting options for appliances, some even allowing you to just put your fiber cable directly on the router and completely throw away your ISP's modem (Not all ISPs would be happy with that, by the way - in Brazil they even artificially jam your signal if you do that). The other advantage of going with Netgate is that they provide some very interesting cheap options, like the Netgate 1100, for $189. They even provide hardware that already comes with Pfsense installed, which would make you skip some steps in this course.
 
 Link for the products that already come with Pfsense: https://www.netgate.com/pfsense-plus-software/how-to-buy#appliances
 
@@ -172,13 +172,13 @@ Now we need to access Pfsense on 10.120.0.1, instead of the IP that we used befo
 
 <br>
 
-Before starting talking about VLANS I want to sit down a bit and talk about the simple network topology that we want to create in our home. Looking at it you can adapt to anything that makes sense to you, but this one is the generic "Servers and Personal stuff don't mix up" design.
+Before we start talking about VLANS I want to sit down a bit and talk about the simple network topology that we want to create in our home. Looking at it you can adapt to anything that makes sense to you, but this one is the generic "Servers and Personal stuff don't mix up" design.
 
 So this is what we are trying to do:
 
 ![vlan topology](https://github.com/knelasevero/home-server-infra/blob/main/md/images/photo_2022-02-24_14-35-58.jpg?raw=true)
 
-Very simple, modem to firewall/router, then to smart switch, and then separating into 2 VLANs. VLAN 1 (or more semantically, VLAN 10, so we start thinking about those VLAN IDs and IP ranges) will host our servers, where we plan to run web services or anything that is not personal. And VLAN 20 hosts our WIFI Access Point, which provides internet and connectivity to our personal devices. If an attacker reaches out your personal devices, your are making it a bit more difficult for them to attack you servers (pretty hard). Same thing if the attacker reaches out your servers, they would not easily jump to your personal devices, and you are reducing the blast radios.
+Very simple, modem to firewall/router, then to smart switch, and then separating into 2 VLANs. VLAN 1 (or more semantically, VLAN 10, so we start thinking about those VLAN IDs and IP ranges) will host our servers, where we plan to run web services or anything that is not personal. And VLAN 20 hosts our WIFI Access Point, which provides internet and connectivity to our personal devices. If an attacker manges to take hold of your personal devices, you are making it a bit more difficult for them to attack your servers (pretty hard). Same thing if the attacker takes hold of your servers, they would not easily jump to your personal devices, and you are reducing the blast radios.
 
 Let's get right to it then.
 
@@ -224,9 +224,9 @@ Enable DHCP and choose a reasonable range for each of the OPT interfaces.
 
 ### Firewall for the new interfaces
 
-Navigate to "Firewall" > "Rules". Have a look over the LAN interface rules. The first one simply lets us access the web admin console, and PFsense does not allow us to delete this rule, so we don't lock ourselves out of it. In any case, rules on top have have priority, so if you block everything on top of that rule, you are locked out anyway.
+Navigate to "Firewall" > "Rules". Have a look over the LAN interface rules. The first one simply lets us access the web admin console, and PFsense does not allow us to delete this rule, so we don't lock ourselves out of it. In any case, rules on top have priority, so if you block everything on top of that rule, you are locked out anyway.
 
-The second and third rules allow IPV4 and IPV6 coming from the LAN subnet, for any protocol (important ones maybe being UDP and TCP here, since we need to reach UDP 53 for DNS, and probably all your "normal" traffic will be on TCP).
+The second and third rules allow IPV4 and IPV6 coming from the LAN subnet, for any protocol (important ones maybe being UDP and TCP here, since we need to reach UDP 53 for DNS, all your "normal" traffic will likely be on TCP).
 
 If you have a look over OPT1 and OPT2, they don't have any rules. Which for Pfsense means block everything. We need to allow some traffic here.
 
@@ -236,7 +236,7 @@ For testing initially just go ahead and create rules that allow all traffic insi
 
 ![alias](https://github.com/knelasevero/home-server-infra/blob/main/md/images/image_2022-02-24_16-43-59.png?raw=true)
 
-You can also crete an IP alias for each of the IP ranges that you have (not including gateways) to already explicitly block traffic between those ranges. Navigate to "Firewall" > "Aliases", and create a new one using the range that you configured in the DHCP server.
+You can also create an IP alias for each of the IP ranges that you have (not including gateways) to already explicitly block traffic between those ranges. Navigate to "Firewall" > "Aliases", and create a new one using the range that you configured in the DHCP server.
 
 ![block](https://github.com/knelasevero/home-server-infra/blob/main/md/images/image_2022-02-24_16-42-54.png?raw=true)
 
@@ -280,7 +280,7 @@ Don´t connect your switch to the router yet. Let's use it in the standalone mod
 
 ![](https://github.com/knelasevero/home-server-infra/blob/main/md/images/photo_2022-02-24_16-45-53.jpg?raw=true)
 
-First edit your connections, and make the wired connection on your laptop have a static ip in the 192.168.0.x range. Plug the switch to a power socket and connect your laptop to the port 1 of the switch. Access the switch in the 192.168.0.1 in a browser (this will be different for different switches).
+First edit your connections, and make the wired connection on your laptop have a static ip in the 192.168.0.x range. Plug the switch to a power socket and connect your laptop to port 1 of the switch. Access the switch in the 192.168.0.1 in a browser (this will be different for different switches).
 
 Login with default credentials (admin:admin), and change your password to something secure, ideally randomly generated by a password manager.
 
@@ -290,7 +290,7 @@ Navigate to  "VLAN" > "802.1Q VLAN", and enable "802.1Q VLAN" and apply. Type "1
 
 Type "20" in the VLAN ID (1-4094) field, and type "personal" in the VLAN Name field. Select Port 1 as tagged, and Ports 5-8 as Untagged. Hit apply.
 
-Port 1 needs to be a member of both VLANs, and it will be receiving tagged packages from the router (from the router to the switch). To make your switch know what to do with traffic coming into ports 2-8 (from servers to the switch), we need to configur PVID onthe next screen.
+Port 1 needs to be a member of both VLANs, and it will be receiving tagged packages from the router (from the router to the switch). To make your switch know what to do with traffic coming into ports 2-8 (from servers to the switch), we need to configure PVID on the next screen.
 
 ![](https://github.com/knelasevero/home-server-infra/blob/main/md/images/image_2022-02-22_02-23-31.png?raw=true)
 
@@ -306,7 +306,7 @@ Navigate to "VLAN" > "802.1Q PVID". Let port one go to PVID 1. Ports 2-4 need to
 
 ### Getting an IP on the right VLAN.
 
-Connect igb2 (third port, next to LAN port on Pfsense) to port 1 of your smart switch, and turn it on connecting it to a power socket. If you didn't try rebooting everything (Pfsense included), won´t hurt you. Connect a laptop to one of the ports of your switch. If you connect to ports 2-4, you should get an IP inside the DHCP range that you defined for OTP1, so something in 10.120.10.x. If you connect the laptop to ports 5-8, you should get an IP in the range of 10.120.20.x. You should not be able to talk to anything on the other VLAN.
+Connect igb2 (third port, next to LAN port on Pfsense) to port 1 of your smart switch, and turn it on connecting it to a power socket. If you didn't try rebooting everything (Pfsense included), it won't hurt you. Connect a laptop to one of the ports of your switch. If you connect to ports 2-4, you should get an IP inside the DHCP range that you defined for OTP1, so something in 10.120.10.x. If you connect the laptop to ports 5-8, you should get an IP in the range of 10.120.20.x. You should not be able to talk to anything on the other VLAN.
 
 <br>
 
@@ -317,9 +317,9 @@ Connect igb2 (third port, next to LAN port on Pfsense) to port 1 of your smart s
 
 ![rebooting](https://github.com/knelasevero/home-server-infra/blob/main/md/images/helpdesk-have-you-tried-rebooting.jpg?raw=true)
 
-While testing the tagging setup I went from different configurations not understanding what was happening and why it was not working, multiple times, when it should. Tried tcpkilling stuff, forcing dhclient to reload stuff, or anything like that, but in the end the good'ol pressing the power buttons and waiting it to come back was the problem solver.
+While testing the tagging setup I went through from different configurations not understanding what was happening and why it was not working, multiple times, when it should. Tried tcpkilling stuff, forcing dhclient to reload stuff, or anything like that, but in the end the good'ol pressing the power buttons and waiting for it to come back was the problem solver.
 
-You of course can use all the well known commands to debug each of the network layers, [from my tweet](https://twitter.com/canelasevero/status/1486363495138578438):
+You can, of course, use all the well known commands to debug each of the network layers, [from my tweet](https://twitter.com/canelasevero/status/1486363495138578438):
 
 - NIC layer:
 
@@ -362,9 +362,9 @@ Another utility from Pfsense that you might want to check to understand what is 
 
 <br>
 
-Your network it pretty much setup to be usable up to this point. But you might have noticed that we did not configure any wifi connection so far. By the way, please disable wifi in your ISP modem, if you did not do it already, you don´t want it there.
+Your network is pretty much setup to be usable up to this point. But you might have noticed that we did not configure any wifi connection so far. By the way, please disable wifi in your ISP modem, if you did not do it already, you don´t want it there.
 
-If you have Desktop PCs and laptops that would be connected via cable to your network, it already possible, just plug them in any of the 5-8 ports of your switch. But for your wifi devices we need to setup an Access Point. For this example lets setup an Unifi Nanohd from Ubiquiti (You can literally use any other wifi AP, any that serves your needs).
+If you have Desktop PCs and laptops that would be connected via cable to your network, just plug them in any of the 5-8 ports of your switch already. But for your wifi devices we need to setup an Access Point. For this example lets setup an Unifi Nanohd from Ubiquiti (You can literally use any other wifi AP, any that serves your needs).
 
 ### Setting up the AP
 
