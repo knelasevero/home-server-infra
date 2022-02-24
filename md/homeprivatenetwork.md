@@ -205,4 +205,10 @@ Congrats, you have VLANs configured, but we still need to enable them, let them 
 
 ### Enabling and configuring VLANs
 
+![Enable Vlan 10](https://github.com/knelasevero/home-server-infra/blob/main/md/images/image_2022-02-24_16-25-54.png?raw=true)
+
 Navigate to "Interfaces" > "Assignments", and click OTP1 interface. Let's enable it and assign a static ip to it. 
+
+![Enable Vlan 20](https://github.com/knelasevero/home-server-infra/blob/main/md/images/image_2022-02-24_16-25-54.png?raw=true)
+
+Do the same for OTP2.
