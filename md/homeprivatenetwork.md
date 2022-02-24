@@ -364,8 +364,34 @@ Another utility from Pfsense that you might want to check to understand what is 
 
 Your network it pretty much setup to be usable up to this point. But you might have noticed that we did not configure any wifi connection so far. By the way, please disable wifi in your ISP modem, if you did not do it already, you don´t want it there.
 
-If you have Desktop PCs and laptops that would be connected via cable to your network, it already possible, just plug them in any of the 5-8 ports of your switch. But for your wifi devices we need to setup an Access Point. For this example lets setup an Unifi Nanohd from Ubiquiti (You can literally use any other wifi AP, any that serve your needs).
+If you have Desktop PCs and laptops that would be connected via cable to your network, it already possible, just plug them in any of the 5-8 ports of your switch. But for your wifi devices we need to setup an Access Point. For this example lets setup an Unifi Nanohd from Ubiquiti (You can literally use any other wifi AP, any that serves your needs).
 
 ### Setting up the AP
 
 Go to <strong><u>https://www.ui.com/download/unifi/unifi-nanohd</u></strong> and download the UniFi Network Application for your operating system. Install this software to your laptop. Connect you laptop to VLAN 20 while also connecting UniFi Nanohd to that VLAN (Let's say port 8 and port 7). Fire up the software and let it find the AP. Setup SSID password, and anything that you want, and that's it, you have wifi.
+
+
+<br>
+
+<a name="rules"></a>
+## [10 - Restrictive rules](#rules)
+
+<br>
+
+
+
+<br>
+
+<a name="suricata"></a>
+## [11 - Suricata IDS/IPS](#suricata)
+
+
+<br>
+
+
+<br>
+
+<a name="further"></a>
+## [12 - Further improvements](#further)
+
+<br>
