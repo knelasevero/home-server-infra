@@ -114,7 +114,7 @@ It should be finished pretty quickly.
 
 ### Booting it up
 
-Unplug your keyboard and USB stick, and reboot the device. It will boot up and sing for you. It you print its IP to the HDMI output monitor, and now you can use it to login to it.
+Unplug your keyboard and USB stick, and reboot the device. It will boot up and sing for you. It will print its IP to the HDMI output monitor, and now you can use it to login to it.
 
 ![IP on screen](https://github.com/knelasevero/home-server-infra/blob/main/md/images/photo_2022-02-24_13-25-08.jpg?raw=true)
 
