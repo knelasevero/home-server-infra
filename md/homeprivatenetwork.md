@@ -235,3 +235,10 @@ If you have a look over OPT1 and OPT2, they don't have any rules. Which for Pfse
 
 For testing initially just go ahead and create rules that allow all traffic inside the subnet. And do the same for OPT2.
 
+![alias](https://github.com/knelasevero/home-server-infra/blob/main/md/images/image_2022-02-24_16-43-59.png?raw=true)
+
+You can also crete an IP alias for each of the IP ranges that you have (not including gateways) to already explicitly block traffic between those ranges. Navigate to "Firewall" > "Aliases", and create a new one using the range that you configured in the DHCP server.
+
+![block](https://github.com/knelasevero/home-server-infra/blob/main/md/images/image_2022-02-24_16-42-54.png?raw=true)
+
+Then block those ranges from talking on both interfaces (or make a floating rule).
