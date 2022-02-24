@@ -17,11 +17,10 @@ We will aim this guide at some specific devices and softwares, but you can adapt
 * [6 - Pfsense easy to miss details](#pfsensedetails)
 * [7 - Smart Switch VLAN tagging setup](#smartswitchvlans)
 * [8 - How to troubleshoot some problems](#troubleshooting)
-* [9 - Mitigate double tagging vulnerability](#vuln)
-* [10 - Wifi AP](#wifi)
-* [11 - Restrictive rules](#rules)
-* [12 - Suricata IDS/IPS](#rules)
-* [13 - Further improvements](#further)
+* [9 - Wifi AP](#wifi)
+* [10 - Restrictive rules](#rules)
+* [11 - Suricata IDS/IPS](#rules)
+* [12 - Further improvements](#further)
 
 <br>
 
@@ -47,7 +46,7 @@ Being a bit more specific about the hardware that we will be using as an example
 
 * For the Pfsense compatible appliance, you can use any Netgate routers, Protectli Vault routers or similar. For this example we will be using a Protectli Vault 6, which can be a bit expensive, but you can follow same steps with Netgate cheaper hardware.
 * We will be using a TP-Link TL-SG108E smart switch. You can use any smart switch capable of dealing with 802.1Q VLANs.
-* For the wifi Access point, you can use any available. I will be just showing the simple steps with the Unifi nanohd from Ubiquiti.
+* For the wifi Access point, you can use any available. I will be just showing the simple steps with the Unifi Nanohd from Ubiquiti.
 
 <br>
 
@@ -233,7 +232,7 @@ If you have a look over OPT1 and OPT2, they don't have any rules. Which for Pfse
 
 ![allow rules](https://github.com/knelasevero/home-server-infra/blob/main/md/images/photo_2022-02-24_15-45-33.jpg?raw=true)
 
-For testing initially just go ahead and create rules that allow all traffic inside the subnet. And do the same for OPT2.
+For testing initially just go ahead and create rules that allow all traffic inside the VLAN. And do the same for OPT2.
 
 ![alias](https://github.com/knelasevero/home-server-infra/blob/main/md/images/image_2022-02-24_16-43-59.png?raw=true)
 
@@ -301,6 +300,72 @@ Navigate to "VLAN" > "802.1Q PVID". Let port one go to PVID 1. Ports 2-4 need to
 ---
 
 <center>**NOTE**</center>
-<center> You might want to create another VLAN with different tag for the tagged traffic (stop using default PVID 1), because of a known exploit called double tagging ([VLAN hopping](https://en.wikipedia.org/wiki/VLAN_hopping)). If the attacker gets access to one of your servers, and then creates a virtual interface in the range of the other subnet, and start tagging packages with known tags, they can send packages to the other interface and nothing would be blocked by your firewall.  </center>
+<center> You might want to create another VLAN with different tag for the tagged traffic (stop using default PVID 1), because of a known exploit called double tagging ([VLAN hopping](https://en.wikipedia.org/wiki/VLAN_hopping)). If the attacker gets access to one of your servers, and then creates a virtual interface in the range of the other VLAN, and start tagging packages with known tags, they can send packages to the other interface and nothing would be blocked by your firewall (This is a bit edge case, and optional, your choice). </center>
 
 ---
+
+### Getting an IP on the right VLAN.
+
+Connect igb2 (third port, next to LAN port on Pfsense) to port 1 of your smart switch, and turn it on connecting it to a power socket. If you didn't try rebooting everything (Pfsense included), won´t hurt you. Connect a laptop to one of the ports of your switch. If you connect to ports 2-4, you should get an IP inside the DHCP range that you defined for OTP1, so something in 10.120.10.x. If you connect the laptop to ports 5-8, you should get an IP in the range of 10.120.20.x. You should not be able to talk to anything on the other VLAN.
+
+<br>
+
+<a name="troubleshooting"></a>
+## [8 - How to troubleshoot some problems](#troubleshooting)
+
+<br>
+
+![rebooting](https://github.com/knelasevero/home-server-infra/blob/main/md/images/helpdesk-have-you-tried-rebooting.jpg?raw=true)
+
+While testing the tagging setup I went from different configurations not understanding what was happening and why it was not working, multiple times, when it should. Tried tcpkilling stuff, forcing dhclient to reload stuff, or anything like that, but in the end the good'ol pressing the power buttons and waiting it to come back was the problem solver.
+
+You of course can use all the well known commands to debug each of the network layers, [from my tweet](https://twitter.com/canelasevero/status/1486363495138578438):
+
+- NIC layer:
+
+```
+ip -br link show
+```
+
+- "Machine" layer:
+
+```
+ip neighbor show
+```
+
+- "IP" layer:
+
+```
+ip -br address show
+ping http://example.com
+traceroute http://example.com
+ip route show
+```
+
+- "Socket" or "IP:Port" layer:
+
+```
+ss -putan
+telnet 10.0.0.1 443
+nc 10.0.0.2 -u 80
+```
+
+
+You can also use Package Capture in Pfsense. Navigate to "Diagnostics" > "Packet Capture", Choose OPT1 (or 2) in the interface dropdown, and leave the rest as is (or change something, if you want something specific). Press Start. Start messing around in a laptop connected to an interesting port in the switch, pinging, tracerouting, or anything that you want. Press stop on Pfsense, and you can check all the logs. This is basically a frontend for tcpdump.
+
+Another utility from Pfsense that you might want to check to understand what is happening in case of trouble following this guid is the Firewall system logs. Navigate to "Status" > "System Logs", and there choose the Firewall tab. You can check any role being enforced and packages that are being dropped. Maybe you forgot to allow something.
+
+<br>
+
+<a name="wifi"></a>
+## [9 - Wifi AP](#wifi)
+
+<br>
+
+Your network it pretty much setup to be usable up to this point. But you might have noticed that we did not configure any wifi connection so far. By the way, please disable wifi in your ISP modem, if you did not do it already, you don´t want it there.
+
+If you have Desktop PCs and laptops that would be connected via cable to your network, it already possible, just plug them in any of the 5-8 ports of your switch. But for your wifi devices we need to setup an Access Point. For this example lets setup an Unifi Nanohd from Ubiquiti (You can literally use any other wifi AP, any that serve your needs).
+
+### Setting up the AP
+
+Go to <strong><u>https://www.ui.com/download/unifi/unifi-nanohd</u></strong> and download the UniFi Network Application for your operating system. Install this software to your laptop. Connect you laptop to VLAN 20 while also connecting UniFi Nanohd to that VLAN (Let's say port 8 and port 7). Fire up the software and let it find the AP. Setup SSID password, and anything that you want, and that's it, you have wifi.
