@@ -242,3 +242,20 @@ You can also crete an IP alias for each of the IP ranges that you have (not incl
 ![block](https://github.com/knelasevero/home-server-infra/blob/main/md/images/image_2022-02-24_16-42-54.png?raw=true)
 
 Then block those ranges from talking on both interfaces (or make a floating rule).
+
+<br>
+
+<a name="pfsensedetails"></a>
+## [6 - Pfsense easy to miss details](#pfsensedetails)
+
+<br>
+
+I want to list here some things to re-check in the previous steps.
+
+* Be sure that you include UDP in those FIrewall rules, since machines need to reach port 53 UDP to resolve DNS
+* If you cant configure DHCP, you probably missed one of these things:
+    * You need to enable the interface
+    * You need to assign it a Static IP
+    * You need to set the /24 mask
+    * You can blog bogon traffic, but cant block private traffic coming from WAN
+
