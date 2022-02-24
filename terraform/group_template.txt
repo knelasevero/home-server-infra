@@ -1,0 +1,6 @@
+SUNSTONE = [
+  DEFAULT_VIEW = "cloud",
+  GROUP_ADMIN_DEFAULT_VIEW = "groupadmin",
+  GROUP_ADMIN_VIEWS = "cloud,groupadmin",
+  VIEWS = "cloud"
+]
