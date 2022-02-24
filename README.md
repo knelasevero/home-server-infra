@@ -1,6 +1,6 @@
 # home-server-infra
 
-Simple ansible setup to configure opennebula and some other tools in a home server.
+Simple ansible/terraform setup to configure opennebula and some other tools in a home server.
 
 ## How to
 
