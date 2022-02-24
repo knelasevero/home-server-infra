@@ -187,7 +187,7 @@ Let's get right to it then.
 
 Go to "Interfaces" > "Assignments", in the admin console. Click the VLAN tab. Click the Add button.
 
-![vlan 10](https://github.com/knelasevero/home-server-infra/blob/main/md/images/photo_2022-02-24_14-50-21.jpg?raw=true)
+![vlan 10](https://github.com/knelasevero/home-server-infra/blob/main/md/images/image_2022-02-24_16-12-22.png?raw=true)
 
 Create a new VLAN that you want to use the port igb2 (WAN is igb0, LAN is igb1). We want another port (igb2), that is not the LAN port, since in the LAN port we want to leave the admin console available, but that is not true for anything else. We assigned the VLAN tag 10 here, and this is what our smart switch will later use to know what is owned by one VLAN of the other. Click Save.
 
