@@ -34,7 +34,7 @@ We will aim this guide at some specific devices and softwares, but you can adapt
 * Some familiarity with Linux networking (You will learn a bunch here as well).
 * Your Personal Machine
     * It can be a Windows or a Linux machine. Preferable if it is a Linux machine since during the course I will show inputs and outputs from a Linux machine. It does not matter the distribution.
-    * This machine needs to have a ethernet socket (CAT 6 - simple internet cable thingy). If your laptop does not have it, you can buy an ethernet to USB adapter.
+    * This machine needs to have a ethernet socket (CAT 6/CAT 4 - simple internet cable thingy). If your laptop does not have it, you can buy an ethernet to USB adapter.
 * A VLAN aware router/firewall. More specifically for our examples, a hardware appliance were we can install Pfsense.
 * A VLAN aware switch (smart switch).
 * At least 6 ethernet cables, of various lengths, depending of how you mount everything.
