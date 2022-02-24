@@ -194,3 +194,15 @@ Create a new VLAN that you want to use the port igb2 (WAN is igb0, LAN is igb1).
 ![vlan 20](https://github.com/knelasevero/home-server-infra/blob/main/md/images/image_2022-02-24_16-07-22.png?raw=true)
 
 Do the same for your VLAN 20, write descriptions that make sense to you.
+
+### Assign the VLANs to interfaces
+
+![VLANs created](https://github.com/knelasevero/home-server-infra/blob/main/md/images/image_2022-02-24_16-19-32.png?raw=true)
+
+Navigate to "Interfaces" > "Assignments", in the admin console. Click the "Interface Assignments" tab. Click the last dropdown, next to the Add button. Select the "VLAN 10 on igb2" option. Click Add. Do the same for VLAN 20.
+
+Congrats, you have VLANs configured, but we still need to enable them, let them do dhcp, and set firewall rules for them.
+
+### Enabling and configuring VLANs
+
+Navigate to "Interfaces" > "Assignments", and click OTP1 interface. Let's enable it and assign a static ip to it. 
