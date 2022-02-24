@@ -30,7 +30,7 @@ We will aim this guide at some specific devices and softwares, but you can adapt
 <br>
 
 * Some familiarity with Linux, running Linux commands, ssh and other introductory Linux concepts
-* Some familiarity with networking, and its components (You will leanr a bunch here as well).
+* Some familiarity with networking, and its components (You will learn a bunch here as well).
 * Some familiarity with Linux networking (You will learn a bunch here as well).
 * Your Personal Machine
     * It can be a Windows or a Linux machine. Preferable if it is a Linux machine since during the course I will show inputs and outputs from a Linux machine. It does not matter the distribution.
