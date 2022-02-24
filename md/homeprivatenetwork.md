@@ -160,7 +160,7 @@ Now we need to access Pfsense on 10.120.0.1, instead of the IP that we used befo
 
 ---
 <center>**NOTE**</center>
-<center> Pfsense is a beast, and since you have it already, VLANS are obviously not the only thing that you can do with it. I recommend having a look on YouTube and watching some overview videos if you want to know what more it is capable of. A good introductory and fun video that I can recommend is from NetworkChuck, where he basically shows everything that we have done here, until this point, and a bit more (like setting up Always-On VPN on your router).  </center>
+<center> Pfsense is a beast, and since you have it already, VLANS are obviously not the only thing that you can do with it. I recommend having a look over YouTube and watching some overview videos if you want to know what more it is capable of. A good introductory and fun video that I can recommend is from NetworkChuck, where he basically shows everything that we have done here, until this point, and a bit more (like setting up Always-On VPN on your router).  </center>
 
 <center><strong><u>[your home router SUCKS!! (use pfSense instead)](https://youtu.be/lUzSsX4T4WQ)</u></strong></center>
 
@@ -177,6 +177,20 @@ Before starting talking about VLANS I want to sit down a bit and talk about the 
 
 So this is what we are trying to do:
 
-![vlan topology](https://github.com/knelasevero/home-server-infra/blob/main/md/images/image_2022-02-24_15-09-17.pngphoto_2022-02-24_14-35-58.jpg?raw=true)
+![vlan topology](https://github.com/knelasevero/home-server-infra/blob/main/md/images/photo_2022-02-24_14-35-58.jpg?raw=true)
 
-Very simple, modem to firewal/router, then to smart switch, and then separating into 2 VLANs. VLAN 1 (or more semantically, VLAN 10, so we start thinking about those VLAN IDs and IP ranges) will host our servers, where we plan to run web services or anything that is not personal. And VLAN 20 hosts our WIFI Access Point, which provides internet and connectivity to our personal devices.
+Very simple, modem to firewall/router, then to smart switch, and then separating into 2 VLANs. VLAN 1 (or more semantically, VLAN 10, so we start thinking about those VLAN IDs and IP ranges) will host our servers, where we plan to run web services or anything that is not personal. And VLAN 20 hosts our WIFI Access Point, which provides internet and connectivity to our personal devices. If an attacker reaches out your personal devices, your are making it a bit more difficult for them to attack you servers (pretty hard). Same thing if the attacker reaches out your servers, they would not easily jump to your personal devices, and you are reducing the blast radios.
+
+Let's get right to it then.
+
+### Setting VLANs up in Pfsense
+
+Go to "Interfaces" > "Assignments", in the admin console. Click the VLAN tab. Click the Add button.
+
+![vlan 10](https://github.com/knelasevero/home-server-infra/blob/main/md/images/photo_2022-02-24_14-50-21.jpg?raw=true)
+
+Create a new VLAN that you want to use the port igb2 (WAN is igb0, LAN is igb1). We want another port (igb2), that is not the LAN port, since in the LAN port we want to leave the admin console available, but that is not true for anything else. We assigned the VLAN tag 10 here, and this is what our smart switch will later use to know what is owned by one VLAN of the other. Click Save.
+
+![vlan 20](https://github.com/knelasevero/home-server-infra/blob/main/md/images/image_2022-02-24_16-07-22.png?raw=true)
+
+Do the same for your VLAN 20, write descriptions that make sense to you.
