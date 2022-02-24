@@ -207,8 +207,31 @@ Congrats, you have VLANs configured, but we still need to enable them, let them 
 
 ![Enable Vlan 10](https://github.com/knelasevero/home-server-infra/blob/main/md/images/image_2022-02-24_16-25-54.png?raw=true)
 
-Navigate to "Interfaces" > "Assignments", and click OTP1 interface. Let's enable it and assign a static ip to it. 
+Navigate to "Interfaces" > "Assignments", and click OPT1 interface. Let's enable it and assign a static ip to it. ☝️ 
 
 ![Enable Vlan 20](https://github.com/knelasevero/home-server-infra/blob/main/md/images/image_2022-02-24_16-25-54.png?raw=true)
 
-Do the same for OTP2.
+Do the same for OPT2. ☝️
+
+If the static ip was configured correctly, it should now show up in the DHCP server pages. Please make sure you let it be static, and that you let the mask be /24.
+
+### Enabling DHCP
+
+![Enable dhcp](https://github.com/knelasevero/home-server-infra/blob/main/md/images/image_2022-02-24_16-32-51.png?raw=true)
+
+You can only enable DHCP if the interface is enabled, if it has a static ip with /24 mask, and if it is not blocking private ips coming from WAN. Navigate to "Services" > "DHCP Server", and you should see all interfaces matching this criteria as tabs at the top of the configuration page.
+
+Enable DHCP and choose a reasonable range for each of the OPT interfaces.
+
+### Firewall for the new interfaces
+
+Navigate to "Firewall" > "Rules". Have a look over the LAN interface rules. The first one simply lets us access the web admin console, and PFsense does not allow us to delete this rule, so we don't lock ourselves out of it. In any case, rules on top have have priority, so if you block everything on top of that rule, you are locked out anyway.
+
+The second and third rules allow IPV4 and IPV6 coming from the LAN subnet, for any protocol (important ones maybe being UDP and TCP here, since we need to reach UDP 53 for DNS, and probably all your "normal" traffic will be on TCP).
+
+If you have a look over OPT1 and OPT2, they don't have any rules. Which for Pfsense means block everything. We need to allow some traffic here.
+
+![allow rules](https://github.com/knelasevero/home-server-infra/blob/main/md/images/photo_2022-02-24_15-45-33.jpg?raw=true)
+
+For testing initially just go ahead and create rules that allow all traffic inside the subnet. And do the same for OPT2.
+
