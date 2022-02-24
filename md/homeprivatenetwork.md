@@ -57,7 +57,7 @@ Being a bit more specific about the hardware that we will be using as an example
 
 ### First option Protectli Vault
 
-This is the option that I am using for this demo. It is very powerful, and you can easily change/replace components on it like in a laptop or PC. Some versions of it come without storage or RAM, and you are expected to install those yourself. Protectli Vault 6 comes with 6 ports, intel **i** series processors, and you are supposed to install a mSATA SSD and RAM on it. You can go up to 64 GB of RAM with 2 DDR4 16GB RAM units. You can also put less than that. This is a router that, in all reality, you can use as a PC, if you some reason need that. It has HDMI output and multiple USBs sockets.
+This is the option that I am using for this demo. It is very powerful, and you can easily change/replace components on it like in a laptop or PC. Some versions of it come without storage or RAM, and you are expected to install those yourself. Protectli Vault 6 comes with 6 ports, intel **i** series processors, and you are supposed to install a mSATA SSD and RAM on it. You can go up to 64 GB of RAM with 2 DDR4 16GB RAM units. You can also put less than that. This is a router that, in all reality, you can use as a PC, if you for some reason need that. It has HDMI output and multiple USBs sockets.
 
 Link: https://eu.protectli.com/products/
 
