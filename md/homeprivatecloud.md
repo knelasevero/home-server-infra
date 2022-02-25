@@ -196,7 +196,7 @@ Install all the opennebula packages:
 sudo apt-get -y install opennebula opennebula-sunstone opennebula-fireedge opennebula-gate opennebula-flow opennebula-provision
 ```
 
-You may need to install a few packages that are dependencies to opennebula packages. If you run above command and run into an error, check the missing dependency and install it. And example error could be:
+You may need to install a few packages that are dependencies to opennebula packages. If you run above command and run into an error, check the missing dependency and install it. An example error could be:
 
 ```
 Some packages could not be installed. This may mean that you have
