@@ -65,7 +65,7 @@ With that out of the way, we can test our VPN connection. While not on your home
 sudo openvpn --config chosen_name.ovpn
 ```
 
-When it says Succeeded, try to ping your Server, and try to ping your VMs. Everything should be reachable.
+When it says Succeeded, try to ping your Server, and try to ping your VMs. Everything should be reachable. If you cannot reach your opennebula VMs from your Personal Machine, it is not a big deal, since we are going to configure the host server as a bastion hop in a bit. You should, of course, be able to reach your Host Server and ssh to it now, while on VPN. If you can't, you need to debug it.
 
 If you have trouble with DNS resolutions and internet, edit /etc/resolv.conf on your Personal Machine and add as the first line `nameserver 8.8.8.8` (or `nameserver 1.1.1.1`).
 
