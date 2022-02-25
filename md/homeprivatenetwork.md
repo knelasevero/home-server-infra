@@ -300,7 +300,7 @@ Navigate to "VLAN" > "802.1Q PVID". Let port one go to PVID 1. Ports 2-4 need to
 ---
 
 <center>**NOTE**</center>
-<center> You might want to create another VLAN with different tag for the tagged traffic (stop using default PVID 1), because of a known exploit called double tagging ([VLAN hopping](https://en.wikipedia.org/wiki/VLAN_hopping)). If the attacker gets access to one of your servers, and then creates a virtual interface in the range of the other VLAN, and start tagging packages with known tags, they can send packages to the other interface and nothing would be blocked by your firewall (This is a bit edge case, and optional, your choice). </center>
+<center> You might want to create another VLAN with different tag for the tagged traffic (stop using default PVID 1), because of a known exploit called double tagging (<strong><u>[VLAN hopping](https://en.wikipedia.org/wiki/VLAN_hopping)</u></strong>). If the attacker gets access to one of your servers, and then creates a virtual interface in the range of the other VLAN, and start tagging packages with known tags, they can send packages to the other interface and nothing would be blocked by your firewall (This is a bit edge case, and optional, your choice). </center>
 
 ---
 
