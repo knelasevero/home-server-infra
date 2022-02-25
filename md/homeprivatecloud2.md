@@ -21,7 +21,7 @@ As we listed before, we will cover the follwing topics here:
 <a name="vpnconfig"></a>
 ## [1 - OpenVPN config](#vpnconfig)
 
-Be very carefull with this step. Avoid doing it if you don't need remote access or if it would be very not frequent. Try to isolate the network where VPN clients will jump in. Do this part at your own risk, and never share VPN client cert files with people that should not have them.
+Be very carefull with this step. Avoid doing it if you don't need remote access or if it would be infrequent. Try to isolate the network where VPN clients will jump in. Do this part at your own risk, and never share VPN client cert files with people that should not have them.
 
 ---
 <center>**NOTE**</center>
