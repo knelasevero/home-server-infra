@@ -251,7 +251,7 @@ Then block those ranges from talking on both interfaces (or make a floating rule
 
 I want to list here some things to re-check in the previous steps.
 
-* Be sure that you include UDP in those FIrewall rules, since machines need to reach port 53 UDP to resolve DNS
+* Be sure that you include UDP in those Firewall rules, since machines need to reach port 53 UDP to resolve DNS
     * In those print screens I am setting protocol to "any" for the sake of simplicity. You of course will need to come back later and start restricting your network more and more
 * If you cant configure DHCP, you probably missed one of these things:
     * You need to enable the interface
