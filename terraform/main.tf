@@ -37,3 +37,12 @@ data "template_file" "grptpl" {
 #        }
 #    }
 #}
+
+module "instance-dev-tf" {
+  source = "./modules/op_nb_instance"
+  name = "test"
+  cpu = 2
+  vcpu = 2
+  memory = 2048
+  ssh_keys = var.ssh_keys
+}
