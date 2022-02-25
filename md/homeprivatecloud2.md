@@ -43,7 +43,7 @@ $ sudo ./openvpn-install.sh
 
 You can choose most of the default options, but for the port, choose something different. In some cases the VPN port will be by default blocked in your router/modem, so you can choose a different one here and take not of it to portforward later. Choose any DNS resolvers of your preference. If you are not sure which to chosse, go with `1.1.1.1`. The final field will ask your for the first client name, and you can choose whatever you like.
 
-Before we can start a VPN connection we need to portforward a port on the modem/router to your port on the Server. To do that first find the IP of your gateway in the Server on the wifi or cabled interface (whichever gives you internet).
+Before we can start a VPN connection we need to portforward a port on the modem/router to your port on the Server. To do that first find the IP of your gateway in the Server on the wifi or cabled interface (whichever gives you internet). **If you followed the [Home private network](https://knela.dev/homeprivatenetwork) guide, this will of course be different. And you would need to port forward on both your modem and your Pfsense router. If you did not follow that guide yet, you can just go forward here.**
 
 ```
 $ ip route | grep default
@@ -65,7 +65,7 @@ With that out of the way, we can test our VPN connection. While not on your home
 sudo openvpn --config chosen_name.ovpn
 ```
 
-When it says Succeded, try to ping your Server, and try to ping your VMs. Everything should be reachable.
+When it says Succeeded, try to ping your Server, and try to ping your VMs. Everything should be reachable.
 
 If you have trouble with DNS resolutions and internet, edit /etc/resolv.conf on your Personal Machine and add as the first line `nameserver 8.8.8.8` (or `nameserver 1.1.1.1`).
 
