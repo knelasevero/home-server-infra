@@ -25,15 +25,16 @@ resource "opennebula_virtual_machine" "instance" {
   permissions = var.permissions
 
   context = {
+    HOSTNAME = var.name,
     ETH0_DNS = "1.1.1.1 8.8.8.8",
     ETH0_GATEWAY = "192.168.122.1",
-    ETH0_GATEWAY6 = "",
     ETH0_IP = "192.168.122.3",
     ETH0_MASK = "255.255.255.0",
     ETH0_NETWORK = "192.168.122.0",
     NETWORK = "YES",
-    SSH_PUBLIC_KEY = join("\n", var.ssh_keys)
-    TARGET = "hda"
+    SSH_PUBLIC_KEY = join("\n", var.ssh_keys),
+    TARGET = "hda",
+    START_SCRIPT = var.start_script
   }
 
   disk {
@@ -45,6 +46,7 @@ resource "opennebula_virtual_machine" "instance" {
   nic {
     network_id = data.opennebula_virtual_network.kvmnet.id
     # security_groups = [opennebula_security_group.mysecgroup.id]
+    ip = var.ip
   }
 
 #   vmgroup {

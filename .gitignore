@@ -4,6 +4,7 @@
 
 # Rendered inventories
 ansible/inventories/homeinfra*
+ansible_internal/inventories/node*
 
 #########
 # Mac OSX

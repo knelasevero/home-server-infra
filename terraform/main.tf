@@ -14,11 +14,24 @@ provider "opennebula" {
   password      = var.one_password
 }
 
-module "instance-dev-tf" {
+module "control-dev-tf" {
   source = "./modules/op_nb_instance"
-  name = "test"
+  name = "control-dev"
   cpu = 2
   vcpu = 2
   memory = 2048
   ssh_keys = var.ssh_keys
+  ip = "192.168.122.2"
+  start_script = "echo '192.168.122.2 control.opnb.homeinfra' >> /etc/hosts && hostname control.opnb.homeinfra"
+}
+
+module "node1-dev-tf" {
+  source = "./modules/op_nb_instance"
+  name = "node1-dev"
+  cpu = 1
+  vcpu = 1
+  memory = 512
+  ssh_keys = var.ssh_keys
+  ip = "192.168.122.3" 
+  start_script = "echo '192.168.122.2 control.opnb.homeinfra' >> /etc/hosts && hostname node1.opnb.homeinfra"
 }
