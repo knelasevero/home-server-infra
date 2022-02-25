@@ -39,6 +39,7 @@ resource "opennebula_virtual_machine" "instance" {
   disk {
     image_id = data.opennebula_image.debian.id
     size     = 5000
+    driver   = "qcow2"
   }
 
   nic {
@@ -56,4 +57,10 @@ resource "opennebula_virtual_machine" "instance" {
   }
 
   timeout = 5
+  lifecycle {
+    ## Seems like a bug, we need to ignore this changes since they trigger runs everytime
+    ignore_changes = [
+      disk["volatile_format"]
+    ]
+  }
 }

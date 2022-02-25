@@ -14,30 +14,6 @@ provider "opennebula" {
   password      = var.one_password
 }
 
-data "template_file" "grptpl" {
-  template = file("group_template.txt")
-}
-
-# Create a new group of users to the OpenNebula cluster
-#resource "opennebula_group" "group" {
-#    name                  = "test-group"
-#    template              = data.template_file.grptpl.rendered
-#    delete_on_destruction = true
-#    quotas {
-#        datastore_quotas {
-#            id     = 1
-#            images = 3
-#            size   = 10000
-#        }
-#        vm_quotas {
-#            cpu            = 3
-#            running_cpu    = 3
-#            memory         = 2048
-#            running_memory = 2048
-#        }
-#    }
-#}
-
 module "instance-dev-tf" {
   source = "./modules/op_nb_instance"
   name = "test"
