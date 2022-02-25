@@ -187,7 +187,7 @@ wget -q -O- https://downloads.opennebula.org/repo/repo.key | sudo apt-key add -
 Add the repo to the system:
 
 ```
-echo "deb https://downloads.opennebula.org/repo/6.1/Ubuntu/20.04 stable opennebula" | sudo tee /etc/apt/sources.list.d/opennebula.list
+echo "deb https://downloads.opennebula.org/repo/6.2/Ubuntu/20.04 stable opennebula" | sudo tee /etc/apt/sources.list.d/opennebula.list
 ```
 
 Install all the opennebula packages:
