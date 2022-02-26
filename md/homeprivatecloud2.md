@@ -390,10 +390,12 @@ If you are already paying for a static IP from your ISP, you can just point a su
 
 This part is not yet implemented in my ansible setup, since it can vary a lot depending on the provider that you are using to host your domain. You need to create a dynamic dns entry on your DNS provider, get the credentials to change it remotely, and pass the configurations to ddclient in a configuration file located at /etc/ddclient.conf. You, of course, also need to install ddclient and enable its systemd service to let it always keep your subdomain updated with your latest public IP.
 
-To install it:
+To install and enable it:
 
 ```
 sudo apt install ddclient
+sudo systemctl start ddclient
+sudo systemctl enable ddclient
 ```
 
 To configure it edit the file /etc/ddclient.conf:
