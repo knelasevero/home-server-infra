@@ -6,6 +6,7 @@ As we listed before, we will cover the follwing topics here:
 
 - Configure OpenVPN to have remote access to our setup
 - See how to use Opennebula custom provider to create VMs with IaC
+- Bring up k3s minimal Kubernetes in your VMS with ansible
 - Configure Nginx as a forward proxy with ssl spread to get Public IP traffic into a VM
 - Setup ddclient service to update our Domain even if we don't have a static IP
 - Bring up a HA k3s Kubernetes Cluster and get an application running with ssl
@@ -16,6 +17,7 @@ As we listed before, we will cover the follwing topics here:
 
 * [1 - OpenVPN config](#vpnconfig)
 * [2 - Terraforming Opennebula](#terraform)
+* [3 - Ansible k3s cluster](#ansible)
 
 <br>
 
@@ -121,9 +123,9 @@ Before starting, you can find the markdown code that generates this post and all
 If you are using Pfsense, and you are also using it to resolve you LAN DNS (from the private network guide that I mentioned before), you can already create an entry in it for your Server. If you are not, simply add some entries in your /etc/hosts file:
 
 ```
-echo "IP_OF_YOUR_SERVER homeinfra" >> /etc/hosts
-echo "IP_OF_YOUR_SERVER opnb.homeinfra" >> /etc/hosts
-echo "192.168.122.2 control.opnb.homeinfra" >> /etc/hosts
+sudo echo "IP_OF_YOUR_SERVER homeinfra" >> /etc/hosts
+sudo echo "IP_OF_YOUR_SERVER opnb.homeinfra" >> /etc/hosts
+sudo echo "127.0.0.1 control.opnb.homeinfra" >> /etc/hosts
 ```
 
 <br>
@@ -224,3 +226,69 @@ terraform apply
 ```
 
 And when it is done, you should have VMs created in your Opennebula web console.
+
+<br>
+
+<a name="ansible"></a>
+## [3 - Ansible k3s cluster](#ansible)
+
+<br>
+
+### Before running ansible
+
+We first need to check our ssh config for hops to later use with ansible. Let's try that. Based on our previous config, we should be able to ssh into ansible without any intermediary steps:
+
+```
+ssh control.opnb.homeinfra
+
+and
+
+ssh node1.opnb.homeinfra
+
+and
+
+ssh node2.opnb.homeinfra
+```
+
+If you already tried that, but destroyed the VMs a few times, ssh will complain that the MAC address of the machine is different from before, but has the same IP. Simply run `ssh-keygen -f "~/.ssh/known_hosts" -R "192.168.122.x"` changing x for each of the IPs that you had before. You actually need to ssh first to those machines at least one time to make them part of your known hosts.
+
+### "Our" k3s ansible code
+
+To bring up k3s in our cluster we just copied the role created by [itwars](https://github.com/itwars), that is available at [k3s-io/k3s-ansible](https://github.com/k3s-io/k3s-ansible). We had to do some tweaks to be able to make ansible able to do the same ssh hops that we can do.
+
+You can check them out at [ansible_k3s/inventory/dev-cluster/hosts.ini](https://github.com/knelasevero/home-server-infra/blob/main/ansible_k3s/inventory/dev-cluster/hosts.ini). We make ansible use our ssh key and also let it know that it will have to ProxyCommand another ssh call to hop into the VMs in Opennebula.
+
+With that out of the way you can run ansible, let it install k3s and make all nodes join in a cluster:
+
+```
+./scripts/run_k3s_ansible.sh
+```
+
+If you want to check if everything is OK, jump to your control plane node and see if the nodes are healthy:
+
+```
+ssh control.opnb.homeinfra
+
+kubectl get nodes
+# Output
+NAME                     STATUS   ROLES                  AGE   VERSION
+control.opnb.homeinfra   Ready    control-plane,master   69m   v1.22.3+k3s1
+node1.opnb.homeinfra     Ready    <none>                 68m   v1.22.3+k3s1
+node2.opnb.homeinfra     Ready    <none>                 68m   v1.22.3+k3s1
+```
+
+You should get output similar to the above. You can also make an ssh tunnel to your machine.
+
+In another terminal run:
+
+```
+ssh -L 6443:192.168.122.2:6443 IP_OF_SERVER
+```
+
+Then on you Personal Machine run:
+
+```
+kubectl get nodes
+```
+
+You should get the same output.
