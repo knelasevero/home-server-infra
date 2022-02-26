@@ -23,7 +23,8 @@ As we listed before, we will cover the follwing topics here:
 * [4 - Deploy something](#deploy)
 * [5 - Nginx as forward proxy](#nginx)
 * [6 - Port forward to your service](#portf)
-* [7 - Ingress setup](#ingress)
+* [7 - DNS client setup](#ddclient)
+* [8 - Ingress setup](#ingress)
 
 
 <br>
@@ -380,7 +381,51 @@ This will depend on your current setup. If everything is connected directly to y
 
 <br>
 
+<a name="ddclient"></a>
+## [7 - DNS client setup](#ddclient)
+
+<br>
+
+If you are already paying for a static IP from your ISP, you can just point a subdomain to your home IP and be done with this part. But if you don't, and you are not planing on doing that yet, ddclient can be a nice option to you.
+
+This part is not yet implemented in my ansible setup, since it can vary a lot depending on the provider that you are using to host your domain. You need to create a dynamic dns entry on your DNS provider, get the credentials to change it remotely, and pass the configurations to ddclient in a configuration file located at /etc/ddclient.conf. You, of course, also need to install ddclient and enable its systemd service to let it always keep your subdomain updated with your latest public IP.
+
+To install it:
+
+```
+sudo apt install ddclient
+```
+
+To configure it edit the file /etc/ddclient.conf:
+
+```
+ssl=yes
+## You can change the "source of MYIP" here
+use=web, web=myip.dnsomatic.com
+## set the protocol to your provider
+protocol=YOURPROVIDER,
+daemon=30
+login=USERNAME
+password='PASSWORD'
+## type your domain bellow
+guest.home.domain.com
+```
+
+After ddclient is running and updating your subdomain, check that it is working. First check your ip:
+
+```
+curl myip.dnsomatic.com
+```
+
+Then check that your domain is pointing to you:
+
+```
+nslookup guest.home.domain.com
+```
+
+<br>
+
 <a name="ingress"></a>
-## [7 - Ingress setup](#ingress)
+## [8 - Ingress setup](#ingress)
 
 <br>
