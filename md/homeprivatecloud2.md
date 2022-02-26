@@ -102,6 +102,7 @@ Dec 19 17:37:20 yourhost openvpn[1629]: personal_host/EXTERNALIP:PORT Incoming D
 
 Opennebula is not the biggest hit when you look for terraform providers. There were a few, made by individual contributors, but now you can find one provider in their official repository. It is still in early stages, but it is actively maintained, and it works well.
 
+<br>
 ### Requirements for running terraform on our opennebula
 
 Let's list some assumptions here to start:
@@ -114,6 +115,7 @@ Let's list some assumptions here to start:
 
 Before starting, you can find the markdown code that generates this post and all the other relevant code at [knelasevero/home-server-infra](https://github.com/knelasevero/home-server-infra). Please clone the repo and have it handy.
 
+<br>
 ### Let's avoid using IPs
 
 If you are using Pfsense, and you are also using it to resolve you LAN DNS (from the private network guide that I mentioned before), you can already create an entry in it for your Server. If you are not, simply add some entries in your /etc/hosts file:
@@ -124,6 +126,7 @@ echo "IP_OF_YOUR_SERVER opnb.homeinfra" >> /etc/hosts
 echo "192.168.122.2 control.opnb.homeinfra" >> /etc/hosts
 ```
 
+<br>
 ### Configuring ssh hop with ssh config
 
 There is a file in the repository that you can use to configure your ssh to set your Server as the bastion to ssh to your created VMs. We use a ProxyCommand to ssh from your Personal Machine to a created VM, hopping first to your Server. Here is the [config.cfg](https://github.com/knelasevero/home-server-infra/blob/main/ansible_k3s/config.cfg) file contents:
@@ -163,6 +166,7 @@ With the file at the right place your can now already use it to ssh to your serv
 ssh opnb.homeinfra
 ```
 
+<br>
 ### Walkthrough the Terraform code
 
 If you cloned the [repo](https://github.com/knelasevero/home-server-infra) You will notice that we have a `terraform` folder there. Inside it we have a very basic structure. A modules folder, where we only have a module defining how to create a Opennebula VM instance, and our `main.tf` entrypoint calling that module.
