@@ -61,12 +61,14 @@ This is the option that I am using for this demo. It is very powerful, and you c
 
 Link: https://eu.protectli.com/products/
 
+<br>
 ### Netgate
 
 The advantage of going with Netgate and using Pfsense is the fact that they are the company helping maintain the community and enterprise edition of the software. They have really interesting options for appliances, some even allowing you to just put your fiber cable directly on the router and completely throw away your ISP's modem (Not all ISPs would be happy with that, by the way - in Brazil they even artificially jam your signal if you do that). The other advantage of going with Netgate is that they provide some very interesting cheap options, like the Netgate 1100, for $189. They even provide hardware that already comes with Pfsense installed, which would make you skip some steps in this course.
 
 Link for the products that already come with Pfsense: https://www.netgate.com/pfsense-plus-software/how-to-buy#appliances
 
+<br>
 ### Other options
 
 Simply search for Pfsense on any e-commerce website, and you will get back some other options that will let you install Pfsense on them. It is as simple as that, and you can decide based on what you plan to do at your home. If you don't have heavy load planned, maybe going for something less powerful could be interesting to you. 
@@ -80,6 +82,7 @@ Simply search for Pfsense on any e-commerce website, and you will get back some 
 
 If you have one of the hardware appliances that comes clean, with no operating system, the first thing we have to do is install Pfsense on it.
 
+<br>
 ### Downloading Pfsense
 
 Let's go to the [official download page](https://www.pfsense.org/download/) and fill the form according to our preference. For Protectli Vault, since we have HDMI output, you would fill this fields as:
@@ -90,10 +93,12 @@ Let's go to the [official download page](https://www.pfsense.org/download/) and 
 * Console: VGA
 * Mirror: Anything that is closer to you for faster download
 
+<br>
 ### Creating bootable USB Stick
 
 If you are on Windows, you can use Rufus for writing the image to the stick. If you are on Linux/Mac, you can use anything that you want, like dd, or something like [balenaetcher](https://www.balena.io/etcher/). Simply write that image file that you downloaded to the USB stick that you want to use as bootable device.
 
+<br>
 ### Installing Pfsense to the Appliance
 
 For Protectli Vault, you can now plug a keyboard and the USB stick to any of its USB ports. Turn it on while being plugged to the power socket. If it beeps 4 times (initial turn on beep and 3 different beeps) and gives you no video output, you probably forgot to install an SSD and RAM memory units (Or you did not realize that this appliance comes without them 😅).
@@ -112,12 +117,14 @@ For installation steps, you can go simple with:
 It should be finished pretty quickly.
 
 
+<br>
 ### Booting it up
 
 Unplug your keyboard and USB stick, and reboot the device. It will boot up and sing for you. It will print its IP to the HDMI output monitor, and now you can use it to login to it.
 
 ![IP on screen](https://github.com/knelasevero/home-server-infra/blob/main/md/images/photo_2022-02-24_13-25-08.jpg?raw=true)
 
+<br>
 ### Plugin it in
 
 Plug the internet cable, coming from your modem in the WAN port of the appliance, and plug the LAN port to you laptop. If you did not configure your ISP's modem to stay in bridge modem, it will just assign a private IP to your Pfsense router. If you managed to do that before, your Pfsense will get a public IP assigned by your ISP. For some modems you need to leave ISP account details wrong on purpose, or similar strategies, while also enabling PPPoE passthrough. Then you would have to configure PPPoE credentials on your Pfsense.
@@ -182,6 +189,7 @@ Very simple, modem to firewall/router, then to smart switch, and then separating
 
 Let's get right to it then.
 
+<br>
 ### Setting VLANs up in Pfsense
 
 Go to "Interfaces" > "Assignments", in the admin console. Click the VLAN tab. Click the Add button.
@@ -194,6 +202,7 @@ Create a new VLAN that you want to use the port igb2 (WAN is igb0, LAN is igb1).
 
 Do the same for your VLAN 20, write descriptions that make sense to you.
 
+<br>
 ### Assign the VLANs to interfaces
 
 ![VLANs created](https://github.com/knelasevero/home-server-infra/blob/main/md/images/image_2022-02-24_16-19-32.png?raw=true)
@@ -202,6 +211,7 @@ Navigate to "Interfaces" > "Assignments", in the admin console. Click the "Inter
 
 Congrats, you have VLANs configured, but we still need to enable them, let them do dhcp, and set firewall rules for them.
 
+<br>
 ### Enabling and configuring VLANs
 
 ![Enable Vlan 10](https://github.com/knelasevero/home-server-infra/blob/main/md/images/image_2022-02-24_16-25-54.png?raw=true)
@@ -214,6 +224,7 @@ Do the same for OPT2. ☝️
 
 If the static ip was configured correctly, it should now show up in the DHCP server pages. Please make sure you let it be static, and that you let the mask be /24.
 
+<br>
 ### Enabling DHCP
 
 ![Enable dhcp](https://github.com/knelasevero/home-server-infra/blob/main/md/images/image_2022-02-24_16-32-51.png?raw=true)
@@ -222,6 +233,7 @@ You can only enable DHCP if the interface is enabled, if it has a static ip with
 
 Enable DHCP and choose a reasonable range for each of the OPT interfaces.
 
+<br>
 ### Firewall for the new interfaces
 
 Navigate to "Firewall" > "Rules". Have a look over the LAN interface rules. The first one simply lets us access the web admin console, and PFsense does not allow us to delete this rule, so we don't lock ourselves out of it. In any case, rules on top have priority, so if you block everything on top of that rule, you are locked out anyway.
@@ -268,12 +280,14 @@ I want to list here some things to re-check in the previous steps.
 
 Let's now start to configure our switch. You probably want to read its manual to know how to access its admin console and how to setup VLANs. For this example we are going to go through how to setup these 2 VLANs (10 and 20) for TP-Link TL-SG108E smart switch.
 
+<br>
 ### Choosing Ports
 
 ![switch vlans](https://github.com/knelasevero/home-server-infra/blob/main/md/images/photo_2022-02-24_16-43-11.jpg?raw=true)
 
 Before starting, we need to decide which ports will be assigned to which VLANs in our segregated network. To make it visually simple, we can think of port 1 being the trunk port, coming from the router, ports 2-4 being the VLAN 10, and ports 5-8 being VLAN 20.
 
+<br>
 ### Setting up the switch
 
 Don´t connect your switch to the router yet. Let's use it in the standalone mode to make it easy to reach it for sure.
@@ -304,6 +318,7 @@ Navigate to "VLAN" > "802.1Q PVID". Let port one go to PVID 1. Ports 2-4 need to
 
 ---
 
+<br>
 ### Getting an IP on the right VLAN.
 
 Connect igb2 (third port, next to LAN port on Pfsense) to port 1 of your smart switch, and turn it on connecting it to a power socket. If you didn't try rebooting everything (Pfsense included), it won't hurt you. Connect a laptop to one of the ports of your switch. If you connect to ports 2-4, you should get an IP inside the DHCP range that you defined for OTP1, so something in 10.120.10.x. If you connect the laptop to ports 5-8, you should get an IP in the range of 10.120.20.x. You should not be able to talk to anything on the other VLAN.
@@ -366,6 +381,7 @@ Your network is pretty much setup to be usable up to this point. But you might h
 
 If you have Desktop PCs and laptops that would be connected via cable to your network, just plug them in any of the 5-8 ports of your switch already. But for your wifi devices we need to setup an Access Point. For this example lets setup an Unifi Nanohd from Ubiquiti (You can literally use any other wifi AP, any that serves your needs).
 
+<br>
 ### Setting up the AP
 
 Go to <strong><u>https://www.ui.com/download/unifi/unifi-nanohd</u></strong> and download the UniFi Network Application for your operating system. Install this software to your laptop. Connect you laptop to VLAN 20 while also connecting UniFi Nanohd to that VLAN (Let's say port 8 and port 7). Fire up the software and let it find the AP. Setup SSID password, and anything that you want, and that's it, you have wifi.
