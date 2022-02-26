@@ -5,8 +5,8 @@ ansible_user=${ansible_user}
 [common]
 ${server_fqdn}
 
-[reverse-proxy]
+[opennebula]
 ${server_fqdn}
 
-[opennebula]
+[proxy]
 ${server_fqdn}

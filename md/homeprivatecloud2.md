@@ -7,7 +7,9 @@ As we listed before, we will cover the follwing topics here:
 - Configure OpenVPN to have remote access to our setup
 - See how to use Opennebula custom provider to create VMs with IaC
 - Bring up k3s minimal Kubernetes in your VMS with ansible
+- Deploy a simple workload
 - Configure Nginx as a forward proxy with ssl spread to get Public IP traffic into a VM
+- Port forward your setup and make a service reachable
 - Setup ddclient service to update our Domain even if we don't have a static IP
 - Bring up a HA k3s Kubernetes Cluster and get an application running with ssl
 
@@ -18,6 +20,11 @@ As we listed before, we will cover the follwing topics here:
 * [1 - OpenVPN config](#vpnconfig)
 * [2 - Terraforming Opennebula](#terraform)
 * [3 - Ansible k3s cluster](#ansible)
+* [4 - Deploy something](#deploy)
+* [5 - Nginx as forward proxy](#nginx)
+* [6 - Port forward to your service](#portf)
+* [7 - Ingress setup](#ingress)
+
 
 <br>
 
@@ -125,6 +132,7 @@ If you are using Pfsense, and you are also using it to resolve you LAN DNS (from
 ```
 sudo echo "IP_OF_YOUR_SERVER homeinfra" >> /etc/hosts
 sudo echo "IP_OF_YOUR_SERVER opnb.homeinfra" >> /etc/hosts
+## This last one will be useful when we create a ssh tunel later in the guide
 sudo echo "127.0.0.1 control.opnb.homeinfra" >> /etc/hosts
 ```
 
@@ -292,3 +300,87 @@ kubectl get nodes
 ```
 
 You should get the same output.
+
+* [4 - Deploy something](#deploy)
+
+<br>
+
+<a name="deploy"></a>
+## [4 - Deploy something](#deploy)
+
+<br>
+
+
+Let's deploy something just to later expose it and show how to let the service be publicly available in the internet. Apply this simple deployment with a example guestbook application:
+
+```
+kubectl apply -f https://k8s.io/examples/application/guestbook/redis-leader-deployment.yaml
+kubectl apply -f https://k8s.io/examples/application/guestbook/redis-leader-service.yaml
+kubectl apply -f https://k8s.io/examples/application/guestbook/redis-follower-deployment.yaml
+kubectl apply -f https://k8s.io/examples/application/guestbook/redis-follower-service.yaml
+kubectl apply -f https://k8s.io/examples/application/guestbook/frontend-deployment.yaml
+kubectl apply -f https://k8s.io/examples/application/guestbook/frontend-service.yaml
+```
+
+Check to see if pods are up:
+
+```
+kubectl get pods
+
+NAME                             READY   STATUS    RESTARTS   AGE
+redis-leader-fb76b4755-vgb5p     1/1     Running   0          10m
+redis-follower-dddfbdcc9-dlwj8   1/1     Running   0          7m51s
+redis-follower-dddfbdcc9-5jmvc   1/1     Running   0          7m51s
+frontend-85595f5bf9-mns9n        1/1     Running   0          7m
+```
+
+You should get output similar to the one above.
+
+
+<br>
+
+<a name="g"></a>
+## [5 - Nginx as forward proxy](#nginx)
+
+<br>
+
+You are going to need a way to forward traffic that is coming on the host Server to the VMs. But in our case, we also want to let all ssl connections be handled by things happening inside kubernetes, so we let cert-manager handle renovating certs and all. To make that possible, instead of using nginx as a reverse proxy, as it usually is, we can use it as a "normal" forward proxy, with ssl spread, so everything is handled in our Kubernetes pods.
+
+### Configuring nginx stream forward proxy
+
+If you ran the ansible playbook to prepare the Opennebula Server with the `all` tag, it already ran the role named proxy and this is already configured. Basically we just need to add this block to /etc/nginx/nginx.conf (if it is not there already):
+
+```
+stream {
+    server {
+        listen 80;
+        proxy_pass 192.168.122.3:80;
+   }
+   server {
+       listen 443;
+       ssl_preread on;
+       proxy_connect_timeout 5s;
+       proxy_pass 192.168.122.3:443;
+   }
+}
+```
+
+This is forwarding all traffic hitting port 80/443 of your Server to port 80/443 of your node1 VM (For 443 it is also spreading ssl, so certs from ingresses inside the cluster are used).
+
+
+<br>
+
+<a name="portf"></a>
+## [6 - Port forward to your service](#portf)
+
+<br>
+
+This will depend on your current setup. If everything is connected directly to your ISP's modem, you will need to just port forward it there. Look for your ISP's modem model manual, and see how to port forward from a port on it to a port on your Server. If you followed the [Home private network](https://knela.dev/homeprivatenetwork) guide, you will have to do that on both your ISP's modem and on your PFsense router/firewall. If you need help with this, don't hesitate to ping [me on twitter](https://twitter.com/canelasevero) or anywhere.
+
+
+<br>
+
+<a name="ingress"></a>
+## [7 - Ingress setup](#ingress)
+
+<br>
