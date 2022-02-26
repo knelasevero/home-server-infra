@@ -42,6 +42,8 @@ In this course I am goin to teach you how to build a simple home private Cloud w
 * In the end we will also deploy an OpenVPN server. Only do this part if you are very familiar with Networking and security (but this is optional).
 * One domain owned by you, if you want to have ssl external access to a service ran by you
 
+Before starting, you can find the markdown code that generates this post and all the other relevant code at [knelasevero/home-server-infra](https://github.com/knelasevero/home-server-infra).
+
 <br>
 
 <a name="preparing"></a>

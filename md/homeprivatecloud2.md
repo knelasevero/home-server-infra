@@ -107,13 +107,116 @@ Opennebula is not the biggest hit when you look for terraform providers. There w
 Let's list some assumptions here to start:
 
 - You are going to need a bit of terraform knowledge here, but just to understand what we have written already, and how to change it.
+- You need terraform (1.1.4) and ansible (2.12) installed.
 - You need to have gone through all the steps from the previous guide, where we added some images and had a Virtual Network created on Opennebula.
 - You need to create a user with enough rights for terraform to use.
 - You of course need to be with your VPN connected or have your Server reachable somehow.
 
-### Let's avoid exposing our IPs
+Before starting, you can find the markdown code that generates this post and all the other relevant code at [knelasevero/home-server-infra](https://github.com/knelasevero/home-server-infra). Please clone the repo and have it handy.
+
+### Let's avoid using IPs
 
 If you are using Pfsense, and you are also using it to resolve you LAN DNS (from the private network guide that I mentioned before), you can already create an entry in it for your Server. If you are not, simply add some entries in your /etc/hosts file:
 
 ```
-echo " homeinfra"
+echo "IP_OF_YOUR_SERVER homeinfra" >> /etc/hosts
+echo "IP_OF_YOUR_SERVER opnb.homeinfra" >> /etc/hosts
+echo "192.168.122.2 control.opnb.homeinfra" >> /etc/hosts
+```
+
+### Configuring ssh hop with ssh config
+
+There is a file in the repository that you can use to configure your ssh to set your Server as the bastion to ssh to your created VMs. We use a ProxyCommand to ssh from your Personal Machine to a created VM, hopping first to your Server. Here is the [config.cfg](https://github.com/knelasevero/home-server-infra/blob/main/ansible_k3s/config.cfg) file contents:
+
+```
+Host opnb.homeinfra
+  Hostname opnb.homeinfra
+  Port 22
+  User YOURUSER
+
+Host control.opnb.homeinfra
+  Hostname 192.168.122.2
+  User root
+  ProxyCommand ssh opnb.homeinfra -W %h:%p
+
+Host node1.opnb.homeinfra
+  Hostname 192.168.122.3
+  User root
+  ProxyCommand ssh opnb.homeinfra -W %h:%p
+
+Host node2.opnb.homeinfra
+  Hostname 192.168.122.4
+  User root
+  ProxyCommand ssh opnb.homeinfra -W %h:%p
+```
+
+If you are login into the Server with another user, different from the user that you have on your Personal Machine, you have to set it there for the opnb.homeinfra connection. To use it natively, simply copy it to the .ssh folder:
+
+```
+cp ansible_kes/config.cfg ~/.ssh/config
+chmod 600 ~/.ssh/config
+```
+
+With the file at the right place your can now already use it to ssh to your server using it:
+
+```
+ssh opnb.homeinfra
+```
+
+### Walkthrough the Terraform code
+
+If you cloned the [repo](https://github.com/knelasevero/home-server-infra) You will notice that we have a `terraform` folder there. Inside it we have a very basic structure. A modules folder, where we only have a module defining how to create a Opennebula VM instance, and our `main.tf` entrypoint calling that module.
+
+We also have our `variables.tf` files both for the main entrypoint and for the module. Some variables are being overwritten from above, and some are left as null on purpose, so we can pass them as environment variables or as inputs in the terminal.
+
+Please change `main.tf` to what makes sense to you, but right now it tries to create the following VMs on Opennebula:
+
+Control Plane node:
+```
+  cpu = 2
+  vcpu = 2
+  memory = 7168 (7GB)
+  ip = "192.168.122.2"
+```
+
+Follower node1:
+```
+  cpu = 1
+  vcpu = 1
+  memory = 4096 (4GB)
+  ip = "192.168.122.3"
+```
+
+Follower node2:
+```
+  cpu = 1
+  vcpu = 1
+  memory = 4096 (4GB)
+  ip = "192.168.122.4"
+```
+
+We are fixing these IPs to make it easier to make them see themselves and when we add Kubernetes to them, to make it easy for them to know who is the control plane node. Before applying this terraform code, you want to do some preparation first.
+
+Open variables.tf, and add you ssh public key where you can see mine. Since you also added opnb.homeinfra entry to your dns resolution file (or server), you should be fine regarding that. If you did not, you should add the IP of your server on those places mentioning opnb.homeinfra.
+
+Since you enabled MFA for your user, you cant use it here for terraform to apply resources. You will have to create another use on Opennebula that does not have MFA enabled. Be careful with that user, and don't share its credentials.
+
+While inside the terraform folder, run terraform init to download providers and do the initial setup:
+```
+terraform init -upgrade
+```
+
+Now you can decide if you want terraform to ask you for Opennebula every time or if you want to export them to be apple apply or destroy terraform without it asking you for them. If you want to export them, just do it like this:
+
+```
+export TF_VAR_one_username=NAME_OF_THE_USER_THAT_YOU_CREATED_FOR_THIS
+export TF_VAR_one_password=THIS_USER'S_PASSWORD
+```
+
+With that out of the way, you can apply terraform (type `yes` when it asks you):
+
+```
+terraform apply
+```
+
+And when it is done, you should have VMs created in your Opennebula web console.
