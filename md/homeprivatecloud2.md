@@ -14,12 +14,15 @@ As we listed before, we will cover the follwing topics here:
 
 ## Table of contents
 
-[1 - OpenVPN config](#vpnconfig)
+* [1 - OpenVPN config](#vpnconfig)
+* [2 - Terraforming Opennebula](#terraform)
 
 <br>
 
 <a name="vpnconfig"></a>
 ## [1 - OpenVPN config](#vpnconfig)
+
+<br>
 
 Be very carefull with this step. Avoid doing it if you don't need remote access or if it would be infrequent. Try to isolate the network where VPN clients will jump in. Do this part at your own risk, and never share VPN client cert files with people that should not have them.
 
@@ -89,3 +92,28 @@ Dec 19 17:37:20 yourhost openvpn[1629]: personal_host/EXTERNALIP:PORT Data Chann
 Dec 19 17:37:20 yourhost openvpn[1629]: personal_host/EXTERNALIP:PORT Outgoing Data Channel: Cipher 'XXXXXXX' initialized with XXX bit key
 Dec 19 17:37:20 yourhost openvpn[1629]: personal_host/EXTERNALIP:PORT Incoming Data Channel: Cipher 'XXXXXXX' initialized with XXX bit key
 ```
+
+<br>
+
+<a name="terraform"></a>
+## [2 - Terraforming Opennebula](#terraform)
+
+<br>
+
+Opennebula is not the biggest hit when you look for terraform providers. There were a few, made by individual contributors, but now you can find one provider in their official repository. It is still in early stages, but it is actively maintained, and it works well.
+
+### Requirements for running terraform on our opennebula
+
+Let's list some assumptions here to start:
+
+- You are going to need a bit of terraform knowledge here, but just to understand what we have written already, and how to change it.
+- You need to have gone through all the steps from the previous guide, where we added some images and had a Virtual Network created on Opennebula.
+- You need to create a user with enough rights for terraform to use.
+- You of course need to be with your VPN connected or have your Server reachable somehow.
+
+### Let's avoid exposing our IPs
+
+If you are using Pfsense, and you are also using it to resolve you LAN DNS (from the private network guide that I mentioned before), you can already create an entry in it for your Server. If you are not, simply add some entries in your /etc/hosts file:
+
+```
+echo " homeinfra"
