@@ -8,7 +8,7 @@ metadata:
 spec:
   rules:
   ## change for your domain
-    - host: guest.home.mach874k.com
+    - host: guest.home.domain.com
       http:
         paths:
           - path: /
@@ -20,5 +20,6 @@ spec:
                   number: 8080
   tls:
   - hosts:
-    - guest.home.mach874k.com
+  ## change for your domain
+    - guest.home.domain.com
     secretName: guest-home-tls
