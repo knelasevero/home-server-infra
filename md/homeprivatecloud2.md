@@ -6,12 +6,11 @@ As we listed before, we will cover the follwing topics here:
 
 - Configure OpenVPN to have remote access to our setup
 - See how to use Opennebula custom provider to create VMs with IaC
-- Bring up k3s minimal Kubernetes in your VMS with ansible
+- Bring up k3s minimal Kubernetes in your VMs with ansible
 - Deploy a simple workload
 - Configure Nginx as a forward proxy with ssl spread to get Public IP traffic into a VM
 - Port forward your setup and make a service reachable
 - Setup ddclient service to update our Domain even if we don't have a static IP
-- Bring up a HA k3s Kubernetes Cluster and get an application running with ssl
 
 <br>
 
@@ -25,6 +24,7 @@ As we listed before, we will cover the follwing topics here:
 * [6 - Port forward to your service](#portf)
 * [7 - DNS client setup](#ddclient)
 * [8 - Ingress setup](#ingress)
+* [9 - Final remarks](#consid)
 
 
 <br>
@@ -302,6 +302,8 @@ kubectl get nodes
 
 You should get the same output.
 
+**I want to stress it here that if you don't want to deal with kubernetes, (and you probably don't want it for small scale stuff) specially if you don't have the expertise (and don't want to learn), feel free to skip anything kubernetes related. **
+
 * [4 - Deploy something](#deploy)
 
 <br>
@@ -453,3 +455,19 @@ If you did not follow the [Home private network](https://knela.dev/homeprivatene
 If you followed the [Home private network](https://knela.dev/homeprivatenetwork) guide, this is basically what is happening:
 
 ![priv cloud setup](https://github.com/knelasevero/home-server-infra/blob/main/md/images/photo_2022-02-28_20-31-42.jpg?raw=true)
+
+
+
+<br>
+
+<a name="consid"></a>
+## [9 - Final remarks](#consid)
+
+<br>
+
+
+As you noticed, to get this setup to be a bit more interesting, you would have to go through the [Home private network](https://knela.dev/homeprivatenetwork) first. But since that guide requires you to buy some more hardware, I have written this one to be independent from the other one.
+
+We are calling your server Spare Machine at some places, since we are assuming you don't want to initially commit to a full fledged Server hardware, made for that (hardware that is meant to be up 24/7). Maybe you want to test drive everything with an old laptop or some raspberry pis before committing to something more expensive. I recommend going through the [Home private network](https://knela.dev/homeprivatenetwork) anyways, if you plan to leave things open to the internet (specially VPN), since it is more secure, and you don't wanna risk things.
+
+Feel free to reach out with questions and improvements to the guides. The text and code is available at [knelasevero/home-server-infra](https://github.com/knelasevero/home-server-infra).
