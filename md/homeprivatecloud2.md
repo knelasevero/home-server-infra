@@ -435,5 +435,21 @@ nslookup guest.home.domain.com
 Let's first install cert-manager to handle our ssl certificates (You will need [kubectl installed](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)):
 
 ```
-k apply -f https://github.com/jetstack/cert-manager/releases/download/v1.4.0/cert-manager.yaml
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.7.1/cert-manager.yaml
 ```
+
+We have some files prepared on the k8s-ingress folder. Let's have a look and apply them. THe first file is our letsencrypt certificate issuer. You don´t need to change anything on it, just apply it. The second file will apply some changes in the Guestbook example service that we deployed before, to make it serve on another service port. You also just apply it. The last file (`ingress-rules.yaml`) will create an Ingress resource defining some simple rules. Kubernetes will use traefik Ingress Controller since we deployed k3s with it by default (you don't really worry about that). You will need to change those lines mentioning the Ingress domain to the domain that you already have pointed to your IP. Beware that applying this with wrong configurations could hammer letsencrypt with invalid calls and they can ban you for a while, so be sure that your sub domain is pointed at your IP and that port 80 and 443 is reachable and port fowarded from your modem (maybe your possible Pfsense router, if you followed [Home private network](https://knela.dev/homeprivatenetwork)) to your server.
+
+```
+sed -i "s/guest.home.domain.com/YOUR_DOMAIN/g" k8s-ingress/ingress-rules.yaml
+
+kubectl apply -f k8s-ingress/
+```
+
+If you did not follow the [Home private network](https://knela.dev/homeprivatenetwork) guide, this is basically what is happening:
+
+![priv cloud setup](https://github.com/knelasevero/home-server-infra/blob/main/md/images/photo_2022-02-28_20-33-37.jpg?raw=true)
+
+If you followed the [Home private network](https://knela.dev/homeprivatenetwork) guide, this is basically what is happening:
+
+![priv cloud setup](https://github.com/knelasevero/home-server-infra/blob/main/md/images/photo_2022-02-28_20-31-42.jpg?raw=true)
