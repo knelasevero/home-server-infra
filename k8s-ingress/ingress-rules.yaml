@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rrpg-rules
+  namespace: rrpg-dev
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  rules:
+  ## change for your domain
+    - host: guest.home.mach874k.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 8080
+  tls:
+  - hosts:
+    - guest.home.mach874k.com
+    secretName: guest-home-tls

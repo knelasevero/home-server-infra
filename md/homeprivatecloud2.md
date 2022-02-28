@@ -312,7 +312,7 @@ You should get the same output.
 <br>
 
 
-Let's deploy something just to later expose it and show how to let the service be publicly available in the internet. Apply this simple deployment with a example guestbook application:
+Let's deploy something just to later expose it and show how to let the service be publicly available in the internet. Apply this simple deployment with a example guestbook application (You will need [kubectl installed](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)):
 
 ```
 kubectl apply -f https://k8s.io/examples/application/guestbook/redis-leader-deployment.yaml
@@ -431,3 +431,9 @@ nslookup guest.home.domain.com
 ## [8 - Ingress setup](#ingress)
 
 <br>
+
+Let's first install cert-manager to handle our ssl certificates (You will need [kubectl installed](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)):
+
+```
+k apply -f https://github.com/jetstack/cert-manager/releases/download/v1.4.0/cert-manager.yaml
+```
