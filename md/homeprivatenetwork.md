@@ -139,7 +139,7 @@ You can completely ignore above paragraph if you just want to let Pfsense get a 
 
 <br>
 
-Let's type that ip address that we took note before in our web browser and access Pfsense admin console. Accept the insecure notice, since the connection is not behind ssl (which you can fix, but wont be covered here), and login with default credentials for now:
+Let's type that ip address that we took note before in our web browser and access Pfsense admin console. Accept the insecure notice, since the connection is not behind ssl (which you can fix, but won't be covered here), and login with default credentials for now:
 
 ![login screen](https://github.com/knelasevero/home-server-infra/blob/main/md/images/photo_2022-02-24_13-49-33.jpg?raw=true)
 
