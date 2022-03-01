@@ -261,6 +261,7 @@ ssh node2.opnb.homeinfra
 
 If you already tried that, but destroyed the VMs a few times, ssh will complain that the MAC address of the machine is different from before, but has the same IP. Simply run `ssh-keygen -f "~/.ssh/known_hosts" -R "192.168.122.x"` changing x for each of the IPs that you had before. You actually need to ssh first to those machines at least one time to make them part of your known hosts.
 
+<br>
 ### "Our" k3s ansible code
 
 To bring up k3s in our cluster we just copied the role created by [itwars](https://github.com/itwars), that is available at [k3s-io/k3s-ansible](https://github.com/k3s-io/k3s-ansible). We had to do some tweaks to be able to make ansible able to do the same ssh hops that we can do.
@@ -349,6 +350,7 @@ You should get output similar to the one above.
 
 You are going to need a way to forward traffic that is coming on the host Server to the VMs. But in our case, we also want to let all ssl connections be handled by things happening inside kubernetes, so we let cert-manager handle renovating certs and all. To make that possible, instead of using nginx as a reverse proxy, as it usually is, we can use it as a "normal" forward proxy, with ssl spread, so everything is handled in our Kubernetes pods.
 
+<br>
 ### Configuring nginx stream forward proxy
 
 If you ran the ansible playbook to prepare the Opennebula Server with the `all` tag, it already ran the role named proxy and this is already configured. Basically we just need to add this block to /etc/nginx/nginx.conf (if it is not there already):
