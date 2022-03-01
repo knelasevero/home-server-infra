@@ -243,7 +243,7 @@ Log out as oneadmin
 $ exit
 ```
 
-Change you FireEdge endpoint. For your private one, you can put localhost or your ip from the interface that connects you to your home network. For the public one (optional), You can add your domain later :
+Change your FireEdge endpoint. For your private one, you can put localhost or your ip from the interface that connects you to your home network. For the public one (optional), you can add your domain later :
 
 ```
 sudo sed -i "s|:private_fireedge_endpoint: [^ ]*|:private_fireedge_endpoint: http://localhost:2616|g" /etc/one/sunstone-server.conf
@@ -346,7 +346,7 @@ Let's first install every package that is required to manage KVM VMs and their n
 $ sudo apt install kvm qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virtinst virt-manager
 ```
 
-Ddetermine if this server is capable of running hardware accelerated KVM virtual machines:
+Determine if this server is capable of running hardware accelerated KVM virtual machines:
 
 ```
 kvm-ok
@@ -419,7 +419,7 @@ To get official images you can simply go to `Storage` > `Apps`. Search for a Dis
 <a name="vm"></a>
 ## [12 - Create your first VM](#vm)
 
-Before we create our fisrt VM on our home private cloud, let's generate yet another ssh key, but now in the server. So we can use this key and, from the server, ssh into a VM.
+Before we create our first VM on our home private cloud, let's generate yet another ssh key, but now in the server. So we can use this key and, from the server, ssh into a VM.
 
 [You can use the guide that we used before to generate it](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent). Just be careful to know which ssh key you are using, and in which VM you are running commands, at each time. 
 
