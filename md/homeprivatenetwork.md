@@ -111,7 +111,7 @@ For installation steps, you can go simple with:
 * Auto ZFS
 * Install
 * Stripe
-* Then choose The appliance SSD from the list (select with space bar, enter to continue)
+* Then choose the appliance SSD from the list (select with space bar, enter to continue)
 * Last chance warning, just accept it
 
 It should be finished pretty quickly.
@@ -150,7 +150,7 @@ Let's type that ip address that we took note before in our web browser and acces
 
 Go over the wizard configuration. Click next on the welcome notice. Click next on the Netfate support notice. Use any hostname that you want. Set DNS servers that you like, maybe 1.1.1.1 for primary and 8.8.8.8 for secondary. Uncheck override DNS. Click next.
 
-At the WAN configuration, If you managed to put your modem in bridge passthrough mode, you will need to fill credentials here (not covering this, since this can vary a lot). If not, leave everything as is, and **uncheck** block private networks from entering via WAN, since your modem will give your Pfsense a private IP. Keep the block bogon option checked.
+At the WAN configuration, if you managed to put your modem in bridge passthrough mode, you will need to fill credentials here (not covering this, since this can vary a lot). If not, leave everything as is, and **uncheck** block private networks from entering via WAN, since your modem will give your Pfsense a private IP. Keep the block bogon option checked.
 
 ![lanconfig](https://github.com/knelasevero/home-server-infra/blob/main/md/images/image_2022-02-24_15-09-17.png?raw=true)
 
@@ -185,7 +185,7 @@ So this is what we are trying to do:
 
 ![vlan topology](https://github.com/knelasevero/home-server-infra/blob/main/md/images/photo_2022-02-24_14-35-58.jpg?raw=true)
 
-Very simple, modem to firewall/router, then to smart switch, and then separating into 2 VLANs. VLAN 1 (or more semantically, VLAN 10, so we start thinking about those VLAN IDs and IP ranges) will host our servers, where we plan to run web services or anything that is not personal. And VLAN 20 hosts our WIFI Access Point, which provides internet and connectivity to our personal devices. If an attacker manges to take hold of your personal devices, you are making it a bit more difficult for them to attack your servers (pretty hard). Same thing if the attacker takes hold of your servers, they would not easily jump to your personal devices, and you are reducing the blast radios.
+Very simple, modem to firewall/router, then to smart switch, and then separating into 2 VLANs. VLAN 1 (or more semantically, VLAN 10, so we start thinking about those VLAN IDs and IP ranges) will host our servers, where we plan to run web services or anything that is not personal. And VLAN 20 hosts our WIFI Access Point, which provides internet and connectivity to our personal devices. If an attacker manages to take hold of your personal devices, you are making it a bit more difficult for them to attack your servers (pretty hard). Same thing if the attacker takes hold of your servers, they would not easily jump to your personal devices, and you are reducing the blast radios.
 
 Let's get right to it then.
 
@@ -269,7 +269,7 @@ I want to list here some things to re-check in the previous steps.
     * You need to enable the interface
     * You need to assign it a Static IP
     * You need to set the /24 mask
-    * You can blog bogon traffic, but cant block private traffic coming from WAN
+    * You can block bogon traffic, but cant block private traffic coming from WAN
 
 <br>
 
@@ -290,7 +290,7 @@ Before starting, we need to decide which ports will be assigned to which VLANs i
 <br>
 ### Setting up the switch
 
-Don´t connect your switch to the router yet. Let's use it in the standalone mode to make it easy to reach it for sure.
+Don't connect your switch to the router yet. Let's use it in the standalone mode to make it easy to reach it for sure.
 
 ![](https://github.com/knelasevero/home-server-infra/blob/main/md/images/photo_2022-02-24_16-45-53.jpg?raw=true)
 
@@ -377,7 +377,7 @@ Another utility from Pfsense that you might want to check to understand what is 
 
 <br>
 
-Your network is pretty much setup to be usable up to this point. But you might have noticed that we did not configure any wifi connection so far. By the way, please disable wifi in your ISP modem, if you did not do it already, you don´t want it there.
+Your network is pretty much setup to be usable up to this point. But you might have noticed that we did not configure any wifi connection so far. By the way, please disable wifi in your ISP modem, if you did not do it already, you don't want it there.
 
 If you have Desktop PCs and laptops that would be connected via cable to your network, just plug them in any of the 5-8 ports of your switch already. But for your wifi devices we need to setup an Access Point. For this example lets setup an Unifi Nanohd from Ubiquiti (You can literally use any other wifi AP, any that serves your needs).
 
