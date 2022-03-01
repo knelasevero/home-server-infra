@@ -54,7 +54,7 @@ $ chmod a+x openvpn-install.sh
 $ sudo ./openvpn-install.sh
 ```
 
-You can choose most of the default options, but for the port, choose something different. In some cases the VPN port will be by default blocked in your router/modem, so you can choose a different one here and take not of it to portforward later. Choose any DNS resolvers of your preference. If you are not sure which to chosse, go with `1.1.1.1`. The final field will ask your for the first client name, and you can choose whatever you like.
+You can choose most of the default options, but for the port, choose something different. In some cases the VPN port will be by default blocked in your router/modem, so you can choose a different one here and take note of it to portforward later. Choose any DNS resolvers of your preference. If you are not sure which to chosse, go with `1.1.1.1`. The final field will ask you for the first client name, and you can choose whatever you like.
 
 Before we can start a VPN connection we need to portforward a port on the modem/router to your port on the Server. To do that first find the IP of your gateway in the Server on the wifi or cabled interface (whichever gives you internet). **If you followed the [Home private network](https://knela.dev/homeprivatenetwork) guide, this will of course be different. And you would need to port forward on both your modem and your Pfsense router. If you did not follow that guide yet, you can just go forward here.**
 
@@ -84,7 +84,7 @@ If you have trouble with DNS resolutions and internet, edit /etc/resolv.conf on 
 
 If you need a new client file to hand out to someone working in a project in you shared server, simply go to the server and run the Road Warrior OpenVPN script again. It will generate another client configuration file with different certificates for you to hand over to a **VERY** trusted person.
 
-To monitor connections to your cluster you can egrep fro "VPN" and "Data Channel" on your server's `/var/log/syslog`.
+To monitor connections to your cluster you can egrep for "VPN" and "Data Channel" on your server's `/var/log/syslog`.
 
 ```
 $ sudo egrep "VPN" /var/log/syslog
@@ -128,7 +128,7 @@ Before starting, you can find the markdown code that generates this post and all
 <br>
 ### Let's avoid using IPs
 
-If you are using Pfsense, and you are also using it to resolve you LAN DNS (from the private network guide that I mentioned before), you can already create an entry in it for your Server. If you are not, simply add some entries in your /etc/hosts file:
+If you are using Pfsense, and you are also using it to resolve your LAN DNS (from the private network guide that I mentioned before), you can already create an entry in it for your Server. If you are not, simply add some entries in your /etc/hosts file:
 
 ```
 sudo echo "IP_OF_YOUR_SERVER homeinfra" >> /etc/hosts
@@ -140,7 +140,7 @@ sudo echo "127.0.0.1 control.opnb.homeinfra" >> /etc/hosts
 <br>
 ### Configuring ssh hop with ssh config
 
-There is a file in the repository that you can use to configure your ssh to set your Server as the bastion to ssh to your created VMs. We use a ProxyCommand to ssh from your Personal Machine to a created VM, hopping first to your Server. Here is the [config.cfg](https://github.com/knelasevero/home-server-infra/blob/main/ansible_k3s/config.cfg) file contents:
+There is a file in the repository that you can use to configure your ssh to set your Server as the bastion to ssh into your created VMs. We use a ProxyCommand to ssh from your Personal Machine to a created VM, hopping first to your Server. Here is the [config.cfg](https://github.com/knelasevero/home-server-infra/blob/main/ansible_k3s/config.cfg) file contents:
 
 ```
 Host opnb.homeinfra
@@ -171,7 +171,7 @@ cp ansible_kes/config.cfg ~/.ssh/config
 chmod 600 ~/.ssh/config
 ```
 
-With the file at the right place your can now already use it to ssh to your server using it:
+With the file at the right place, you can now already use it to ssh to your server using it:
 
 ```
 ssh opnb.homeinfra
@@ -180,7 +180,7 @@ ssh opnb.homeinfra
 <br>
 ### Walkthrough the Terraform code
 
-If you cloned the [repo](https://github.com/knelasevero/home-server-infra) You will notice that we have a `terraform` folder there. Inside it we have a very basic structure. A modules folder, where we only have a module defining how to create a Opennebula VM instance, and our `main.tf` entrypoint calling that module.
+If you cloned the [repo](https://github.com/knelasevero/home-server-infra) you will notice that we have a `terraform` folder there. Inside it we have a very basic structure. A modules folder, where we only have a module defining how to create a Opennebula VM instance, and our `main.tf` entrypoint calling that module.
 
 We also have our `variables.tf` files both for the main entrypoint and for the module. Some variables are being overwritten from above, and some are left as null on purpose, so we can pass them as environment variables or as inputs in the terminal.
 
@@ -214,14 +214,14 @@ We are fixing these IPs to make it easier to make them see themselves and when w
 
 Open variables.tf, and add you ssh public key where you can see mine. Since you also added opnb.homeinfra entry to your dns resolution file (or server), you should be fine regarding that. If you did not, you should add the IP of your server on those places mentioning opnb.homeinfra.
 
-Since you enabled MFA for your user, you cant use it here for terraform to apply resources. You will have to create another use on Opennebula that does not have MFA enabled. Be careful with that user, and don't share its credentials.
+Since you enabled MFA for your user, you cant use it here for terraform to apply resources. You will have to create another user on Opennebula that does not have MFA enabled. Be careful with that user, and don't share its credentials.
 
 While inside the terraform folder, run terraform init to download providers and do the initial setup:
 ```
 terraform init -upgrade
 ```
 
-Now you can decide if you want terraform to ask you for Opennebula every time or if you want to export them to be apple apply or destroy terraform without it asking you for them. If you want to export them, just do it like this:
+Now you can decide if you want terraform to ask you for Opennebula creds every time or if you want to export them to be able to apply or destroy terraform without it asking you for them. If you want to export them, just do it like this:
 
 ```
 export TF_VAR_one_username=NAME_OF_THE_USER_THAT_YOU_CREATED_FOR_THIS
@@ -440,7 +440,7 @@ Let's first install cert-manager to handle our ssl certificates (You will need [
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.7.1/cert-manager.yaml
 ```
 
-We have some files prepared on the k8s-ingress folder. Let's have a look and apply them. The first file is our letsencrypt certificate issuer. You don´t need to change anything on it, just apply it. The second file will apply some changes in the Guestbook example service that we deployed before, to make it serve on another service port. You also just apply it. The last file (`ingress-rules.yaml`) will create an Ingress resource defining some simple rules. Kubernetes will use traefik Ingress Controller since we deployed k3s with it by default (you don't really need to worry about that). You will need to change those lines mentioning the Ingress domain to the domain that you already have pointed to your IP. Beware that applying this with wrong configurations could hammer letsencrypt with invalid calls and they can ban you for a while, so be sure that your sub domain is pointed at your IP and that port 80 and 443 is reachable and port fowarded from your modem (maybe your possible Pfsense router, if you followed [Home private network](https://knela.dev/homeprivatenetwork)) to your server.
+We have some files prepared on the k8s-ingress folder. Let's have a look and apply them. The first file is our letsencrypt certificate issuer. You don't need to change anything on it, just apply it. The second file will apply some changes in the Guestbook example service that we deployed before, to make it serve on another service port. You also just apply it. The last file (`ingress-rules.yaml`) will create an Ingress resource defining some simple rules. Kubernetes will use traefik Ingress Controller since we deployed k3s with it by default (you don't really need to worry about that). You will need to change those lines mentioning the Ingress domain to the domain that you already have pointed to your IP. Beware that applying this with wrong configurations could hammer letsencrypt with invalid calls and they can ban you for a while, so be sure that your sub domain is pointed at your IP and that port 80 and 443 is reachable and port fowarded from your modem (maybe your possible Pfsense router, if you followed [Home private network](https://knela.dev/homeprivatenetwork)) to your server.
 
 ```
 sed -i "s/guest.home.domain.com/YOUR_DOMAIN/g" k8s-ingress/ingress-rules.yaml
