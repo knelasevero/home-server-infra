@@ -303,7 +303,9 @@ kubectl get nodes
 
 You should get the same output.
 
-**I want to stress it here that if you don't want to deal with kubernetes, (and you probably don't want it for small scale stuff) specially if you don't have the expertise (and don't want to learn), feel free to skip anything kubernetes related. **
+**I want to stress it here that if you don't want to deal with kubernetes, (and you probably don't want it for small scale stuff) specially if you don't have the expertise (and don't want to learn), feel free to skip anything kubernetes related.**
+
+**If you want to remove k3s from all nodes, simply run `./scripts/reset_k3s_ansible.sh`.**
 
 <br>
 
