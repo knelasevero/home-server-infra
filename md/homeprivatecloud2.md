@@ -305,8 +305,6 @@ You should get the same output.
 
 **I want to stress it here that if you don't want to deal with kubernetes, (and you probably don't want it for small scale stuff) specially if you don't have the expertise (and don't want to learn), feel free to skip anything kubernetes related. **
 
-* [4 - Deploy something](#deploy)
-
 <br>
 
 <a name="deploy"></a>
