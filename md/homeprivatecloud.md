@@ -1,6 +1,6 @@
 # How to build your home private Cloud
 
-In this course I am goin to teach you how to build a simple home private Cloud with OpenNebula, KVM, Terraform, Nginx, Linux, and a VPN. We are going to also automate the creation of an HA k3s Kubernetes cluster in your private cloud. Even though this is more like a tutorial, I will be explaining some of the concepts that we may encounter along the way.
+In this guide I am goin to teach you how to build a simple home private Cloud with OpenNebula, KVM, Terraform, Nginx, Linux, and a VPN. We are going to also automate the creation of an HA k3s Kubernetes cluster in your private cloud. Even though this is more like a tutorial, I will be explaining some of the concepts that we may encounter along the way.
 
 <br>
 
@@ -31,14 +31,14 @@ In this course I am goin to teach you how to build a simple home private Cloud w
 	* 20 GiB free space on disk
     * public IP address (FE-PublicIP)
 	* privileged user access (root)
-	* operating system already installed: Ubuntu 20.04 (just so we keep the same baseline for the course)
+	* operating system already installed: Ubuntu 20.04 (just so we keep the same baseline for the guide)
 	* open ports: 22 (SSH), 80 (Sunstone), 2616 (FireEdge), 5030 (OneGate).
 	* internet connection on this machine
 * Your Personal Machine
-    * It can be a Windows or a Linux machine. Preferable if it is a Linux machine since during the course I will show inputs and outputs from a Linux machine. The distribution doesn't matter.
+    * It can be a Windows or a Linux machine. Preferable if it is a Linux machine since during the guide I will show inputs and outputs from a Linux machine. The distribution doesn't matter.
     * Your personal machine needs to have ssh access to the spare machine
 * You need to have access to your Modem/Router to be able to configure port forwarding (we are going to show how to do it)
-* Even though we are going to bring up a Kubernetes cluster in the end, and configure some things on it, it will be more to showcase what you can do with the platform. So Kubernetes knowledge is not necessary. If you plan to use that cluster, of course, then it would be necessary.
+* Even though we are going to bring up a Kubernetes cluster in the end, and configure some things on it, it will be more to showcase what you can do with the platform. So Kubernetes knowledge is not necessary. If you plan to use that cluster, of guide, then it would be necessary.
 * In the end we will also deploy an OpenVPN server. Only do this part if you are very familiar with Networking and security (but this is optional).
 * One domain owned by you, if you want to have ssl external access to a service ran by you
 
@@ -218,7 +218,7 @@ And then you would need to install it:
 $ sudo apt install libnode64
 ```
 
-You can skip the MariaDB step if you want to deploy OpenNebula as quickly as possible. I won't cover it here in this course.
+You can skip the MariaDB step if you want to deploy OpenNebula as quickly as possible. I won't cover it here in this guide.
 
 <br>
 
