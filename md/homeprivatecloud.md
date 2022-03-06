@@ -38,7 +38,7 @@ In this guide I am goin to teach you how to build a simple home private Cloud wi
     * It can be a Windows or a Linux machine. Preferable if it is a Linux machine since during the guide I will show inputs and outputs from a Linux machine. The distribution doesn't matter.
     * Your personal machine needs to have ssh access to the spare machine
 * You need to have access to your Modem/Router to be able to configure port forwarding (we are going to show how to do it)
-* Even though we are going to bring up a Kubernetes cluster in the end, and configure some things on it, it will be more to showcase what you can do with the platform. So Kubernetes knowledge is not necessary. If you plan to use that cluster, of guide, then it would be necessary.
+* Even though we are going to bring up a Kubernetes cluster in the end, and configure some things on it, it will be more to showcase what you can do with the platform. So Kubernetes knowledge is not necessary. If you plan to use that cluster, of course, then it would be necessary.
 * In the end we will also deploy an OpenVPN server. Only do this part if you are very familiar with Networking and security (but this is optional).
 * One domain owned by you, if you want to have ssl external access to a service ran by you
 
