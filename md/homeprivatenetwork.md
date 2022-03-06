@@ -1,7 +1,7 @@
 # Home private network
 ## How to build a simple but good home network with multiple VLANs
 
-This course is aimed to assist anyone wanting to setup a more secure and more robust home network so you can avoid just connecting to you ISP's provided modem/router. You will also be able to segregate your network in multiple VLANs, allowing you to separate your personal devices from your servers and in the end give you more control over everything.
+This guide is aimed to assist anyone wanting to setup a more secure and more robust home network so you can avoid just connecting to you ISP's provided modem/router. You will also be able to segregate your network in multiple VLANs, allowing you to separate your personal devices from your servers and in the end give you more control over everything.
 
 We will aim this guide at some specific devices and softwares, but you can adapt where needed. Please reach out if you run into problems.
 
@@ -33,7 +33,7 @@ We will aim this guide at some specific devices and softwares, but you can adapt
 * Some familiarity with networking, and its components (You will learn a bunch here as well).
 * Some familiarity with Linux networking (You will learn a bunch here as well).
 * Your Personal Machine
-    * It can be a Windows or a Linux machine. Preferable if it is a Linux machine since during the course I will show inputs and outputs from a Linux machine. The distribution doesn't matter.
+    * It can be a Windows or a Linux machine. Preferable if it is a Linux machine since during the guide I will show inputs and outputs from a Linux machine. The distribution doesn't matter.
     * This machine needs to have a ethernet socket (CAT 6/CAT 4 - simple internet cable thingy). If your laptop does not have it, you can buy an ethernet to USB adapter.
 * A VLAN aware router/firewall. More specifically for our examples, a hardware appliance were we can install Pfsense.
 * A VLAN aware switch (smart switch).
@@ -64,7 +64,7 @@ Link: https://eu.protectli.com/products/
 <br>
 ### Netgate
 
-The advantage of going with Netgate and using Pfsense is the fact that they are the company helping maintain the community and enterprise edition of the software. They have really interesting options for appliances, some even allowing you to just put your fiber cable directly on the router and completely throw away your ISP's modem (Not all ISPs would be happy with that, by the way - in Brazil they even artificially jam your signal if you do that). The other advantage of going with Netgate is that they provide some very interesting cheap options, like the Netgate 1100, for $189. They even provide hardware that already comes with Pfsense installed, which would make you skip some steps in this course.
+The advantage of going with Netgate and using Pfsense is the fact that they are the company helping maintain the community and enterprise edition of the software. They have really interesting options for appliances, some even allowing you to just put your fiber cable directly on the router and completely throw away your ISP's modem (Not all ISPs would be happy with that, by the way - in Brazil they even artificially jam your signal if you do that). The other advantage of going with Netgate is that they provide some very interesting cheap options, like the Netgate 1100, for $189. They even provide hardware that already comes with Pfsense installed, which would make you skip some steps in this guide.
 
 Link for the products that already come with Pfsense: https://www.netgate.com/pfsense-plus-software/how-to-buy#appliances
 
