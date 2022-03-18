@@ -49,7 +49,7 @@ Be very carefull with this step. Avoid doing it if you don't need remote access 
 For the sake of simplicity I like to use the Road Warrior VPN script provided at [Nyr/openvpn-install](https://github.com/Nyr/openvpn-install). Please do not use it blindly and read the code before running it. If you are not familiar with shell/bash scripts, ask someone that you know to review it. After doing that, we can download and run it:
 
 ```
-$ wget https://github.com/Nyr/openvpn-install/blob/master/openvpn-install.sh
+$ wget https://raw.githubusercontent.com/Nyr/openvpn-install/master/openvpn-install.sh
 $ chmod a+x openvpn-install.sh
 $ sudo ./openvpn-install.sh
 ```
@@ -80,7 +80,7 @@ sudo openvpn --config chosen_name.ovpn
 
 When it says Succeeded, try to ping your Server, and try to ping your VMs. Everything should be reachable. If you cannot reach your opennebula VMs from your Personal Machine, it is not a big deal, since we are going to configure the host server as a bastion hop in a bit. You should, of course, be able to reach your Host Server and ssh to it now, while on VPN. If you can't, you need to debug it.
 
-If you have trouble with DNS resolutions and internet, edit /etc/resolv.conf on your Personal Machine and add as the first line `nameserver 8.8.8.8` (or `nameserver 1.1.1.1`).
+If you have trouble with DNS resolutions and internet, edit /etc/resolv.conf on your Personal Machine and add as the first line `nameserver 8.8.8.8` (or `nameserver 1.1.1.1`). Another problem might be the redirect-gateway directive that comes from this Road Warrior script. Search for `redirect-gateway` on your server, at `/etc/openvpn/server/server.conf` and delete that line (of course, restart the openvpn server `sudo systemctl restart openvpn-server@server.service`).
 
 If you need a new client file to hand out to someone working in a project in you shared server, simply go to the server and run the Road Warrior OpenVPN script again. It will generate another client configuration file with different certificates for you to hand over to a **VERY** trusted person.
 
