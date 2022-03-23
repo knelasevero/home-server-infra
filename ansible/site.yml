@@ -22,8 +22,15 @@
   tags: opennebula-node
 
 - name: Install and configure the forward proxy
-  hosts: proxy
+  hosts: proxy-entry
   gather_facts: yes
   roles:
-    - proxy
-  tags: proxy
+    - proxy-entry
+  tags: proxy-entry
+
+- name: Install and configure the forward proxy
+  hosts: proxy-node
+  gather_facts: yes
+  roles:
+    - proxy-node
+  tags: proxy-node

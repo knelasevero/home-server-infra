@@ -17,6 +17,20 @@ then
   read -r server_fqdn
 fi
 
+if [ -z "$server2_fqdn" ]
+then
+  echo "If you want to suppress this input, run 'export server2_fqdn=<FQDN>' on the command line"
+  echo -n 'Input server2_fqdn: '
+  read -r server2_fqdn
+fi
+
+if [ -z "$server2_ip" ]
+then
+  echo "If you want to suppress this input, run 'export server2_ip=<FQDN>' on the command line"
+  echo -n 'Input server2_ip: '
+  read -r server2_ip
+fi
+
 if [ -z "$ansible_user" ]
 then
   echo "If you want to suppress this input, run 'export domain=<domain>' on the command line"
@@ -26,7 +40,7 @@ fi
 
 TEMPLATES_DIR="ansible/inventories/templates"
 INVENTORY_DIR="ansible/inventories/${ENVIRONMENT}"
-envsubst_variables='${server_fqdn} ${ansible_user}'
+envsubst_variables='${server_fqdn} ${server2_ip} ${server2_fqdn} ${ansible_user}'
 
 set -o nounset
 

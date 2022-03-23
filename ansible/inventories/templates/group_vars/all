@@ -1,3 +1,5 @@
 ---
 
 example_global_var: "great-value"
+
+server2_ip: ${server2_ip}

@@ -4,12 +4,21 @@ ansible_user=${ansible_user}
 
 [common]
 ${server_fqdn}
+${server2_fqdn}
 
 [opennebula]
 ${server_fqdn}
 
 [opennebula-node]
 ${server_fqdn}
+${server2_fqdn}
 
 [proxy]
 ${server_fqdn}
+${server2_fqdn}
+
+[proxy-entry]
+${server_fqdn}
+
+[proxy-node]
+${server2_fqdn}
