@@ -12,3 +12,10 @@
   template:
     src: nginx.conf.j2
     dest: /etc/nginx/nginx.conf
+
+- name: Copy template nginx conf host 2
+  become: yes
+  when: inventory_hostname == "opnb2.homeinfra"
+  template:
+    src: nginx.conf.2.j2
+    dest: /etc/nginx/nginx.conf

@@ -19,6 +19,7 @@ ${server2_fqdn}
 
 [proxy-entry]
 ${server_fqdn}
+${server2_fqdn}
 
 [proxy-node]
 ${server2_fqdn}
