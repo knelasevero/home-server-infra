@@ -15,8 +15,21 @@ echo
 echo "Run ansible"
 echo
 
-ansible-inventory -i inventory/dev-cluster/hosts.ini  --graph
-ansible-playbook reset.yml -vvv -i inventory/dev-cluster/hosts.ini
+inventory=""
+
+if [ -z "${INVENTORY}" ]; then
+    inventory=${1}   
+    if [ -z "${1}" ]; then
+    echo "Type the inventory name to execute (dev-cluster or pre-cluster): "
+    read -r INVENTORY
+    export INVENTORY
+    inventory=${INVENTORY}
+    fi
+fi
+
+
+ansible-inventory -i inventory/${inventory}/hosts.ini  --graph
+ansible-playbook reset.yml -vvv -i inventory/${inventory}/hosts.ini
 
 popd
 popd

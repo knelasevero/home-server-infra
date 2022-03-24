@@ -46,3 +46,36 @@ module "node2-dev-tf" {
   ip = "192.168.122.4" 
   start_script = "echo '192.168.122.2 control.opnb.homeinfra' >> /etc/hosts && hostname node2.opnb.homeinfra"
 }
+
+module "control-pre-tf" {
+  source = "./modules/op_nb_instance"
+  name = "control-pre"
+  cpu = 4
+  vcpu = 4
+  memory = 8192
+  ssh_keys = var.ssh_keys
+  ip = "192.168.122.5"
+  start_script = "echo '192.168.122.5 control.opnb.homeinfra' >> /etc/hosts && hostname controlpre.opnb.homeinfra"
+}
+
+module "node1-pre-tf" {
+  source = "./modules/op_nb_instance"
+  name = "node1-pre"
+  cpu = 3
+  vcpu = 3
+  memory = 11776
+  ssh_keys = var.ssh_keys
+  ip = "192.168.122.6" 
+  start_script = "echo '192.168.122.5 controlpre.opnb.homeinfra' >> /etc/hosts && hostname node1pre.opnb.homeinfra"
+}
+
+module "node2-pre-tf" {
+  source = "./modules/op_nb_instance"
+  name = "node2-pre"
+  cpu = 3
+  vcpu = 3
+  memory = 11776
+  ssh_keys = var.ssh_keys
+  ip = "192.168.122.7" 
+  start_script = "echo '192.168.122.5 controlpre.opnb.homeinfra' >> /etc/hosts && hostname node2pre.opnb.homeinfra"
+}
