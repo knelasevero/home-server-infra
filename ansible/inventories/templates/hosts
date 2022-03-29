@@ -8,5 +8,8 @@ ${server_fqdn}
 [opennebula]
 ${server_fqdn}
 
+[opennebula-node]
+${server_fqdn}
+
 [proxy]
 ${server_fqdn}
