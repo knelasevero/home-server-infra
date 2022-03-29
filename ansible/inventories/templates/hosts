@@ -13,10 +13,6 @@ ${server_fqdn}
 ${server_fqdn}
 ${server2_fqdn}
 
-[proxy]
-${server_fqdn}
-${server2_fqdn}
-
 [proxy-entry]
 ${server_fqdn}
 ${server2_fqdn}
