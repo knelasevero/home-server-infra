@@ -39,7 +39,7 @@ resource "opennebula_virtual_machine" "instance" {
 
   disk {
     image_id = data.opennebula_image.debian.id
-    size     = 5000
+    size     = var.disk
     driver   = "qcow2"
   }
 

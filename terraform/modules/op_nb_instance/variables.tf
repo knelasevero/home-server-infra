@@ -7,3 +7,4 @@ variable "permissions" { default = "660" }
 variable "ssh_keys" { default = [] }
 variable "ip" { }
 variable "start_script" { default = "echo '192.168.122.2 control.opnb.homeinfra' >> /etc/hosts" }
+variable "disk" { default = "5000" }
