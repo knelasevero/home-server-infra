@@ -82,3 +82,15 @@ module "node2-pre-tf" {
   ip = "192.168.122.7" 
   start_script = "echo '192.168.122.5 controlpre.opnb.homeinfra' >> /etc/hosts && hostname node2pre.opnb.homeinfra"
 }
+
+module "gitlab-runner-pre-tf" {
+  source = "./modules/op_nb_instance"
+  name = "gitlab-runner-pre"
+  cpu = 2
+  vcpu = 2
+  memory = 4096
+  disk = 100000
+  ssh_keys = var.ssh_keys
+  ip = "192.168.122.8" 
+  start_script = "hostname gitlabrunner.opnb.homeinfra"
+}
