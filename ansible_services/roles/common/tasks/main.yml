@@ -1,4 +1,11 @@
 ---
+- name: Install Docker 
+  become: yes 
+  apt: 
+    name: "docker.io" 
+    state: present 
+    update_cache: yes 
+
 - name: Install Git
   become: yes
   apt:

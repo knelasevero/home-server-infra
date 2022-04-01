@@ -1,4 +1,22 @@
 ---
-- name: Print something
-  ansible.builtin.debug:
-    msg: Reached here
+- name: Download binary
+  ansible.builtin.command: curl -LJO https://gitlab-runner-downloads.s3.amazonaws.com/latest/deb/gitlab-runner_amd64.deb
+
+
+- name: Install gitlab runner
+  ansible.builtin.command: dpkg -i gitlab-runner_amd64.deb
+
+- name: Register runner
+  ansible.builtin.command: |
+    gitlab-runner register \
+    --non-interactive \
+    --url "https://gitlab.com/" \
+    --registration-token "{{ GITLAB_RUNNER_TOKEN }}" \
+    --executor "docker" \
+    --docker-image alpine:latest \
+    --description "docker-runner" \
+    --maintenance-note "NOTES" \
+    --tag-list "docker,pre" \
+    --run-untagged="true" \
+    --locked="false" \
+    --access-level="not_protected"
