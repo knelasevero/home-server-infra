@@ -53,7 +53,7 @@ module "control-pre-tf" {
   cpu = 4
   vcpu = 4
   memory = 8192
-  disk = 40000
+  disk = 100000
   ssh_keys = var.ssh_keys
   ip = "192.168.122.5"
   start_script = "echo '192.168.122.5 control.opnb.homeinfra' >> /etc/hosts && hostname controlpre.opnb.homeinfra"
@@ -65,7 +65,7 @@ module "node1-pre-tf" {
   cpu = 3
   vcpu = 3
   memory = 11776
-  disk = 40000
+  disk = 100000
   ssh_keys = var.ssh_keys
   ip = "192.168.122.6" 
   start_script = "echo '192.168.122.5 controlpre.opnb.homeinfra' >> /etc/hosts && hostname node1pre.opnb.homeinfra"
@@ -77,7 +77,7 @@ module "node2-pre-tf" {
   cpu = 3
   vcpu = 3
   memory = 11776
-  disk = 40000
+  disk = 100000
   ssh_keys = var.ssh_keys
   ip = "192.168.122.7" 
   start_script = "echo '192.168.122.5 controlpre.opnb.homeinfra' >> /etc/hosts && hostname node2pre.opnb.homeinfra"
