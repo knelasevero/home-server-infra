@@ -1,0 +1,12 @@
+---
+
+- hosts: pre_vms
+  gather_facts: yes
+  become: yes
+  roles:
+    - role: common
+
+- hosts: gitlabrunner
+  become: yes
+  roles:
+    - role: gitlabrunner

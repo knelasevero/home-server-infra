@@ -1,0 +1,23 @@
+---
+- name: Install Git
+  become: yes
+  apt:
+    name: git
+    state: present
+    update_cache: yes
+
+- name: Run command disable GUI
+  ansible.builtin.command: systemctl set-default multi-user
+  become: yes
+
+- name: Remove telnet
+  apt:
+    pkg: telnet
+    state: absent
+  become: yes
+
+- name: Remove cups
+  apt:
+    pkg: cups
+    state: absent
+  become: yes
