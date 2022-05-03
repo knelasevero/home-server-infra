@@ -19,6 +19,7 @@ module "control-dev-tf" {
   name = "control-dev"
   cpu = 2
   vcpu = 2
+  disk = 20000
   memory = 7168
   ssh_keys = var.ssh_keys
   ip = "192.168.122.2"
