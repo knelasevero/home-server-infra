@@ -1,10 +1,30 @@
 ---
-- name: Install Docker 
-  become: yes 
-  apt: 
-    name: "docker.io" 
-    state: present 
-    update_cache: yes 
+- name: Update apt
+  ansible.builtin.command: apt update
+
+- name: Download containerd binary
+  ansible.builtin.command: curl -LJO https://download.docker.com/linux/debian/dists/bullseye/pool/stable/amd64/containerd.io_1.5.11-1_amd64.deb
+
+- name: Install containerd
+  ansible.builtin.command: apt-get install ./containerd.io_1.5.11-1_amd64.deb -y
+
+- name: Download docker cli binary
+  ansible.builtin.command: curl -LJO https://download.docker.com/linux/debian/dists/bullseye/pool/stable/amd64/docker-ce-cli_20.10.14~3-0~debian-bullseye_amd64.deb
+
+- name: Install docker cli
+  ansible.builtin.command: apt-get install ./docker-ce-cli_20.10.14~3-0~debian-bullseye_amd64.deb -y
+
+- name: Download docker-ce-rootless binary
+  ansible.builtin.command: curl -LJO https://download.docker.com/linux/debian/dists/bullseye/pool/stable/amd64/docker-ce-rootless-extras_20.10.14~3-0~debian-bullseye_amd64.deb
+
+- name: Install Docker rootless
+  ansible.builtin.command: apt-get install ./docker-ce-rootless-extras_20.10.14~3-0~debian-bullseye_amd64.deb -y
+
+- name: Download binary
+  ansible.builtin.command: curl -LJO https://download.docker.com/linux/debian/dists/bullseye/pool/stable/amd64/docker-ce_20.10.14~3-0~debian-bullseye_amd64.deb
+
+- name: Install docker
+  ansible.builtin.command: apt-get install ./docker-ce_20.10.14~3-0~debian-bullseye_amd64.deb -y
 
 - name: Install Git
   become: yes

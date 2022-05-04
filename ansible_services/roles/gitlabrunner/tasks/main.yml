@@ -1,12 +1,32 @@
 ---
+- name: Check that the gitlab-runner_amd64.deb exists
+  stat:
+    path: gitlab-runner_amd64.deb
+  register: runner_deb_stat_result
+
 - name: Download binary
   ansible.builtin.command: curl -LJO https://gitlab-runner-downloads.s3.amazonaws.com/latest/deb/gitlab-runner_amd64.deb
+  when: not runner_deb_stat_result.stat.exists
+
+
+- name: Check that the /etc/gitlab-runner/config.toml exists
+  stat:
+    path: /etc/gitlab-runner/config.toml
+  register: runner_config_stat_result
 
 
 - name: Install gitlab runner
   ansible.builtin.command: dpkg -i gitlab-runner_amd64.deb
+  when: not runner_config_stat_result.stat.exists
 
+- name: Check that the /etc/gitlab-runner/state exists
+  stat:
+    path: /etc/gitlab-runner/state
+  register: runner_state_stat_result
+
+# register 2 runners
 - name: Register runner
+  when: not runner_state_stat_result.stat.exists
   ansible.builtin.command: |
     gitlab-runner register \
     --non-interactive \
@@ -19,4 +39,31 @@
     --tag-list "docker,pre" \
     --run-untagged="true" \
     --locked="false" \
-    --access-level="not_protected"
+    --access-level="not_protected" \
+    --docker-image "docker:19.03.12" \
+    --docker-volumes /var/run/docker.sock:/var/run/docker.sock
+
+- name: Register runner
+  when: not runner_state_stat_result.stat.exists
+  ansible.builtin.command: |
+    gitlab-runner register \
+    --non-interactive \
+    --url "https://gitlab.com/" \
+    --registration-token "{{ GITLAB_RUNNER_TOKEN }}" \
+    --executor "docker" \
+    --docker-image alpine:latest \
+    --description "docker-runner" \
+    --maintenance-note "NOTES" \
+    --tag-list "docker,pre" \
+    --run-untagged="true" \
+    --locked="false" \
+    --access-level="not_protected" \
+    --docker-image "docker:19.03.12" \
+    --docker-volumes /var/run/docker.sock:/var/run/docker.sock
+
+- name: Create gitlab runner state file
+  ansible.builtin.file:
+    path: /etc/gitlab-runner/state
+    state: touch
+    mode: '0600'
+

@@ -20,7 +20,7 @@ inventory=""
 if [ -z "${INVENTORY}" ]; then
     inventory=${1}   
     if [ -z "${1}" ]; then
-    echo "Type the inventory name to execute (dev-cluster or pre-cluster): "
+    echo "Type the inventory name to execute (pre-vms or another): "
     read -r INVENTORY
     export INVENTORY
     inventory=${INVENTORY}
