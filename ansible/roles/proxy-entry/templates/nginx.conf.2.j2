@@ -63,9 +63,13 @@ http {
 }
 
 stream {
-    server {
+   server {
         listen 80;
         proxy_pass {{ k8s_2_node_ip }}:80;
+   }
+   server {
+        listen 30443;
+        proxy_pass {{ k8s_2_node_ip }}:30443;
    }
    server {
         listen 443;
